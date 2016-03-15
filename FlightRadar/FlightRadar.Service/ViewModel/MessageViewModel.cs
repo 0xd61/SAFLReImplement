@@ -11,9 +11,6 @@ namespace FlightRadar.Service.ViewModel
 {
     public class MessageViewModel
     {
-        public delegate void SimpleEventHandler(string test);
-        public event SimpleEventHandler OnUpdate;
-
         /// <summary>
         /// Hält die liste von Nachrichten
         /// </summary>
@@ -34,13 +31,7 @@ namespace FlightRadar.Service.ViewModel
             if (repo == null)
                 return;
 
-            ADSBMessageBase msg = repo.GetMessage();
-
-            MessageList.Add(msg);
-
-            OnUpdate?.Invoke(msg.Name);
-
+            MessageList.Add(repo.GetMessage());
         }
-
     }
 }
