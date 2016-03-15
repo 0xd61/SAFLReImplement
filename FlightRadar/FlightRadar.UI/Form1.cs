@@ -27,6 +27,12 @@ namespace FlightRadar.UI
         private void Form1_Load(object sender, EventArgs e)
         {
             msgViewModel = new MessageViewModel(new LocalMessageRepository());
+            msgViewModel.OnUpdate += MsgViewModel_OnUpdate;
+        }
+
+        private void MsgViewModel_OnUpdate(string test)
+        {
+            Console.WriteLine("Test Event");
         }
 
         private void ButtonUpdate_Click(object sender, EventArgs e)
