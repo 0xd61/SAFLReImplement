@@ -23,8 +23,20 @@ namespace FlightRadar.UI
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            viewModel = new MessageViewModel(
-                new WebMessageRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence"));
+            viewModel = new MessageViewModel();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            viewModel.Update();
+
+            listBox1.Items.Clear();
+
+            foreach(string s in viewModel.RawMessages)
+            {
+                listBox1.Items.Add(s);
+            }
+
         }
     }
 }

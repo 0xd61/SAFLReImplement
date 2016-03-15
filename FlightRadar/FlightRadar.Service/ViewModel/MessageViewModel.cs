@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using FlightRadar.DataAccess;
+using System.Threading;
 
 namespace FlightRadar.Service.ViewModel
 {
@@ -15,23 +16,24 @@ namespace FlightRadar.Service.ViewModel
         /// Hält die liste von Nachrichten
         /// </summary>
         public List<ADSBMessageBase> MessageList { get; set; } = new List<ADSBMessageBase>();
+        public List<string> RawMessages { get; set; } = new List<string>();
 
-        private IMessageRepository repo = null;
+        private IMessageService messageService = null;
 
-        public MessageViewModel(IMessageRepository repository)
+        public MessageViewModel()
         {
-            repo = repository;
+            messageService = new MessageService(new WebMessageRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence"));
         }
 
         /// <summary>
-        /// Holt alle Daten
+        /// Holt eine Message
         /// </summary>
         public void Update()
         {
-            if (repo == null)
-                return;
+            string msg = messageService.PopRawMessage();
 
-            MessageList.Add(repo.GetMessage());
+            if(msg != string.Empty)
+                RawMessages.Add(messageService.PopRawMessage());
         }
     }
 }

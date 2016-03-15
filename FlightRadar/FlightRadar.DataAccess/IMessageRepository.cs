@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.DataAccess
 {
-    public interface IMessageRepository
+    public abstract class IMessageRepository
     {
-        ADSBMessageBase GetMessage();
+        public delegate void GetMessageHandler(string message);
+        public event GetMessageHandler OnGetMessage;
+
+        protected void NotifyListener(string message)
+        {
+            OnGetMessage?.Invoke(message);
+        }
+
+        public abstract void StartMessageLoop();
     }
 }

@@ -41,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMessageRepository.cs" />
-    <Compile Include="LocalMessageRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebMessageRepository.cs" />
   </ItemGroup>
