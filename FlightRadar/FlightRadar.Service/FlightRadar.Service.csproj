@@ -45,7 +45,6 @@
     <Compile Include="MessageParser.cs" />
     <Compile Include="MessageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleMessageParser.cs" />
     <Compile Include="ViewModel\MessageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -36,6 +36,7 @@ namespace FlightRadar.DataAccess
             int bytesRead = 0;
 
             Console.WriteLine("Verbunden...");
+            Connected = true;
 
             try
             {

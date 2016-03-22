@@ -16,10 +16,12 @@ namespace FlightRadar.Service.ViewModel
         public List<string> RawMessages { get; set; } = new List<string>();
 
         private IMessageService messageService = null;
+        private IMessageParser messageParser = null;
 
         public MessageViewModel()
         {
             messageService = new MessageService(new WebMessageRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence"));
+            messageParser = new MessageParser();
         }
 
         public void Update()
@@ -27,7 +29,9 @@ namespace FlightRadar.Service.ViewModel
             string msg = messageService.PopRawMessage();
 
             if(msg != string.Empty)
-                RawMessages.Add(messageService.PopRawMessage());
+            {
+                RawMessages.Add(messageParser.Parse(msg));
+            }
         }
 
         public void Dispose()

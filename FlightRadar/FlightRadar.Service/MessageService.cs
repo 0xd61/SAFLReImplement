@@ -24,6 +24,7 @@ namespace FlightRadar.Service
             repo.OnGetMessage += Repo_OnGetMessage;
 
             workerThread = new Thread(repo.StartMessageLoop);
+            workerThread.Name = "Message Thread";
             workerThread.Start();
 
         }
@@ -44,6 +45,11 @@ namespace FlightRadar.Service
         /// <returns></returns>
         public string PopRawMessage()
         {
+            if(repo.Connected == false)
+            {
+
+            }
+
 
             if (rawMessages.Count != 0)
                 return rawMessages.Dequeue();
@@ -57,6 +63,7 @@ namespace FlightRadar.Service
         public void Dispose()
         {
             repo.StopMessageloop = true;
+            workerThread.Join();
         }
     }
 }

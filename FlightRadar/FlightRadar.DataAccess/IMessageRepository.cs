@@ -13,9 +13,11 @@ namespace FlightRadar.DataAccess
         public event GetMessageHandler OnGetMessage;
 
         public bool StopMessageloop { get; set; } = false;
+        public bool Connected { get; set; } = false;
 
         protected void NotifyListener(string message)
         {
+            if(message != string.Empty)
             OnGetMessage?.Invoke(message);
         }
 
