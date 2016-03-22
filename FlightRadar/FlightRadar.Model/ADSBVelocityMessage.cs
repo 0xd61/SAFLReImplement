@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
-    class ADSBVelocityMessage : ADSBMessageBase
+    public class ADSBVelocityMessage : ADSBMessageBase
     {
+
     }
 }

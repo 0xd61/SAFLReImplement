@@ -9,5 +9,6 @@ namespace FlightRadar.Model
     public class ADSBMessageBase
     {
         public string Name { get; set; } = string.Empty;
+        public string ICAO { get; set; } = string.Empty;
     }
 }
