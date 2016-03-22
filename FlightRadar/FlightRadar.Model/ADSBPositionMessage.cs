@@ -8,6 +8,9 @@ namespace FlightRadar.Model
 {
     public class ADSBPositionMessage : ADSBMessageBase
     {
+        public ADSBPositionMessage() : base("","",0,0,0,0)
+        {
 
+        }
     }
 }

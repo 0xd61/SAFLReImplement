@@ -8,6 +8,9 @@ namespace FlightRadar.Model
 {
     public class ADSBVelocityMessage : ADSBMessageBase
     {
+        public ADSBVelocityMessage() : base("","", 0,0,0,0)
+        {
 
+        }
     }
 }

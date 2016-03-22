@@ -8,21 +8,21 @@ namespace FlightRadar.Model
 {
     public class ADSBMessageBase
     {
-        private string timestamp { get; set; } = string.Empty;
-        private string ICAO { get; set; } = string.Empty;
-        private int type { get; set; }
-        private int downlinkFormat { get; set; }
-        private int capability { get; set; }
-        private int payload { get; set; }
+        public string Timestamp { get; private set; } = string.Empty;
+        public string ICAO { get; set; } = string.Empty;
+        public int Type { get; set; }
+        public int DownlinkFormat { get; set; }
+        public int Capability { get; set; }
+        public int Payload { get; set; }
 
-        public ADSBMessageBase (string timestamp, string ICAO, int type, int downlinkFormat, int capability, int payload)
+        public ADSBMessageBase (string Timestamp, string ICAO, int Type, int DownlinkFormat, int Capability, int Payload)
         {
-            this.timestamp = timestamp;
+            this.Timestamp = Timestamp;
             this.ICAO = ICAO;
-            this.type = type;
-            this.downlinkFormat = downlinkFormat;
-            this.capability = capability;
-            this.payload = payload;
+            this.Type = Type;
+            this.DownlinkFormat = DownlinkFormat;
+            this.Capability = Capability;
+            this.Payload = Payload;
         }
     }
 }
