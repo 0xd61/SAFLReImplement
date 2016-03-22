@@ -21,7 +21,7 @@ namespace FlightRadar.Service
             Thread workerThread = new Thread(repo.StartMessageLoop);
             workerThread.Start();
 
-            //TODO: Den Thread wieder stoppen
+            //TODO: Den Thread wieder stoppen sdg
         }
 
         private void Repo_OnGetMessage(string message)
