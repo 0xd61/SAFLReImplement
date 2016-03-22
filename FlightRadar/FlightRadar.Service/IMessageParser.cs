@@ -8,6 +8,6 @@ namespace FlightRadar.Service
 {
     public interface IMessageParser
     {
-        void Parse(string text);
+        string Parse(string adsbSentence);
     }
 }
