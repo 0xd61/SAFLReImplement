@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
+    public enum ADSBMessagetype { Identification, Position, Velocity }
     public class ADSBMessageBase
     {
         public string Timestamp { get; private set; } = string.Empty;
