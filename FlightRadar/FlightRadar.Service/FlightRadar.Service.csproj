@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\IMessageBuilder.cs" />
     <Compile Include="IMessageParser.cs" />
     <Compile Include="IMessageService.cs" />
     <Compile Include="MessageParser.cs" />
