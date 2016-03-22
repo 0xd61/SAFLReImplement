@@ -9,11 +9,11 @@ namespace FlightRadar.Model
     public class ADSBMessageBase
     {
         public string Timestamp { get; private set; } = string.Empty;
-        public string ICAO { get; set; } = string.Empty;
-        public int Type { get; set; }
-        public int DownlinkFormat { get; set; }
-        public int Capability { get; set; }
-        public int Payload { get; set; }
+        public string ICAO { get; private set; } = string.Empty;
+        public int Type { get; private set; }
+        public int DownlinkFormat { get; private set; }
+        public int Capability { get; private set; }
+        public int Payload { get; private set; }
 
         public ADSBMessageBase (string Timestamp, string ICAO, int Type, int DownlinkFormat, int Capability, int Payload)
         {

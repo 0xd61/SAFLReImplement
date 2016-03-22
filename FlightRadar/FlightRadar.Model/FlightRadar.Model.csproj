@@ -44,6 +44,7 @@
     <Compile Include="ADSBMessageContainer.cs" />
     <Compile Include="ADSBPositionMessage.cs" />
     <Compile Include="ADSBVelocityMessage.cs" />
+    <Compile Include="ADSBIdentificationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
