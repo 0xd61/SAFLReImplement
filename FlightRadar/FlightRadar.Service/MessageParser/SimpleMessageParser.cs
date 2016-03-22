@@ -48,10 +48,18 @@ namespace FlightRadar.Service.MessageParser
             return sentence.Substring(47);
         }
 
-        public string ParseMessagetype(string message)
+        public ADSBMessagetype ParseMessagetype(string payloadInBin)
         {
-            string type = "";
-            return type;
+            int typeCode = Convert.ToInt32(payloadInBin.Substring(0, 4));
+
+            if (typeCode == 0 || (typeCode >= 9 && typeCode <= 18) || (typeCode >= 20 && typeCode <= 22))
+                return ADSBMessagetype.Position;
+            if (typeCode >= 1 && typeCode <= 4)
+                return ADSBMessagetype.Identification;
+            if (typeCode == 19)
+                return ADSBMessagetype.Velocity;
+
+            return ADSBMessagetype.undefined;
         }
 
     }
