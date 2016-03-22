@@ -9,21 +9,15 @@ namespace FlightRadar.Model
     public enum ADSBMessagetype { Identification, Position, Velocity }
     public class ADSBMessageBase
     {
-        public string Timestamp { get; private set; } = string.Empty;
-        public string ICAO { get; private set; } = string.Empty;
-        public int Type { get; private set; }
-        public int DownlinkFormat { get; private set; }
-        public int Capability { get; private set; }
-        public int Payload { get; private set; }
+        public string Timestamp { get; set; } = string.Empty;
+        public string ICAO { get; set; } = string.Empty;
+        public int Type { get; set; }
+        public int DownlinkFormat { get; set; }
+        public int Capability { get; set; }
+        public int Payload { get; set; }
 
-        public ADSBMessageBase (string Timestamp, string ICAO, int Type, int DownlinkFormat, int Capability, int Payload)
+        public ADSBMessageBase ()
         {
-            this.Timestamp = Timestamp;
-            this.ICAO = ICAO;
-            this.Type = Type;
-            this.DownlinkFormat = DownlinkFormat;
-            this.Capability = Capability;
-            this.Payload = Payload;
         }
     }
 }

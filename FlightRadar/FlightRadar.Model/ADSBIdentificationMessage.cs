@@ -11,7 +11,7 @@ namespace FlightRadar.Model
         public int EmitterCategory { get; private set; }
         public string AircraftID { get; private set; }
 
-        public ADSBIdentificationMessage(int EmitterCategory, string AircraftID) : base("", "", 0, 0, 0, 0)
+        public ADSBIdentificationMessage(int EmitterCategory, string AircraftID)
         {
             this.EmitterCategory = EmitterCategory;
             this.AircraftID = AircraftID;

@@ -8,7 +8,7 @@ namespace FlightRadar.Model
 {
     public class ADSBRawMessage : ADSBMessageBase
     {
-        public ADSBRawMessage() : base("","",0,0,0,0)
+        public ADSBRawMessage()
         {
 
         }

@@ -17,7 +17,11 @@ namespace FlightRadar.Model
         public int VerticalRateSource { get; private set; }
         public int VerticalSpeed { get; private set; }
 
-        public ADSBVelocityMessage(int Subtype, int IntentChange, int ReservedA, int NavigationAccuracy, int Speed, int Heading, int VerticalRateSource, int VerticalSpeed) : base("", "", 0, 0, 0, 0)
+        public ADSBVelocityMessage( int Subtype,
+                                    int IntentChange, int ReservedA,
+                                    int NavigationAccuracy, int Speed,
+                                    int Heading, int VerticalRateSource,
+                                    int VerticalSpeed)
         {
             this.Subtype = Subtype;
             this.IntentChange = IntentChange;

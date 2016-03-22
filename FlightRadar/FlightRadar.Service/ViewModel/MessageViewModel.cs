@@ -31,7 +31,7 @@ namespace FlightRadar.Service.ViewModel
 
             if(msg != string.Empty)
             {
-                RawMessages.Add(messageParser.Parse(msg));
+                RawMessages.Add(msg);
             }
 
         }

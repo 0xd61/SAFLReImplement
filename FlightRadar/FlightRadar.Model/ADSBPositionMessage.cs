@@ -16,7 +16,10 @@ namespace FlightRadar.Model
         public int CprLongitude { get; private set; }
         public int CprLatitude { get; private set; }
 
-        public ADSBPositionMessage(int SurveillanceStatus, int NicSupplement, int Altitude, int TimeFlag, int CprFormate, int CprLongitude, int CprLatitude) : base("","",0,0,0,0)
+        public ADSBPositionMessage( int SurveillanceStatus,
+                                    int NicSupplement, int Altitude,
+                                    int TimeFlag, int CprFormate,
+                                    int CprLongitude, int CprLatitude)
         {
             this.SurveillanceStatus = SurveillanceStatus;
             this.NicSupplement = NicSupplement;
