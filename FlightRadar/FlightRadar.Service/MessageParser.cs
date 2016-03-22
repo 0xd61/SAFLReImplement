@@ -9,6 +9,11 @@ namespace FlightRadar.Service
 {
     class MessageParser : IMessageParser
     {
+        /// <summary>
+        /// parse String from JSON ADSB Sentence
+        /// </summary>
+        /// <param name="adsbSentence"></param>
+        /// <returns></returns>
         public string Parse(string adsbSentence)
         {
             Regex pattern = new Regex(@"\d+\.\d+!ADS-B\*[0-9A-Z]{28}");
