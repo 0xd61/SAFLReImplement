@@ -10,11 +10,8 @@ using System.Threading;
 
 namespace FlightRadar.Service.ViewModel
 {
-    public class MessageViewModel
+    public class MessageViewModel : IDisposable
     {
-        /// <summary>
-        /// Hält die liste von Nachrichten
-        /// </summary>
         public List<ADSBMessageBase> MessageList { get; set; } = new List<ADSBMessageBase>();
         public List<string> RawMessages { get; set; } = new List<string>();
 
@@ -25,15 +22,17 @@ namespace FlightRadar.Service.ViewModel
             messageService = new MessageService(new WebMessageRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence"));
         }
 
-        /// <summary>
-        /// Holt eine Message
-        /// </summary>
         public void Update()
         {
             string msg = messageService.PopRawMessage();
 
             if(msg != string.Empty)
                 RawMessages.Add(messageService.PopRawMessage());
+        }
+
+        public void Dispose()
+        {
+            messageService?.Dispose();
         }
     }
 }

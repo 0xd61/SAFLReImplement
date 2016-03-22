@@ -18,7 +18,6 @@ namespace FlightRadar.DataAccess
         public WebMessageRepository(string url)
         {
             ServerURL = url;
-            
         }
 
 
@@ -40,7 +39,7 @@ namespace FlightRadar.DataAccess
 
             try
             {
-                while (true)
+                while (StopMessageloop == false)
                 {
                     reader = new StreamReader(dataStream);
                     bytesRead = reader.Read(buffer, 0, 100);
@@ -56,6 +55,8 @@ namespace FlightRadar.DataAccess
 
             reader?.Close();
             response.Close();
+
+            Console.WriteLine("Verbindung geschlossen...");
         }
 
 

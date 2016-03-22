@@ -12,6 +12,8 @@ namespace FlightRadar.DataAccess
         public delegate void GetMessageHandler(string message);
         public event GetMessageHandler OnGetMessage;
 
+        public bool StopMessageloop { get; set; } = false;
+
         protected void NotifyListener(string message)
         {
             OnGetMessage?.Invoke(message);

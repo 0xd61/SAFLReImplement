@@ -38,5 +38,10 @@ namespace FlightRadar.UI
             }
 
         }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            viewModel?.Dispose();
+        }
     }
 }

@@ -12,30 +12,51 @@ namespace FlightRadar.Service
     {
         private IMessageRepository repo = null;
         private Queue<string> rawMessages { get; set; } = new Queue<string>();
+        private Thread workerThread;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageService"/> class.
+        /// </summary>
+        /// <param name="repository">The repository.</param>
         public MessageService(IMessageRepository repository)
         {
             repo = repository;
             repo.OnGetMessage += Repo_OnGetMessage;
 
-            Thread workerThread = new Thread(repo.StartMessageLoop);
+            workerThread = new Thread(repo.StartMessageLoop);
             workerThread.Start();
 
-            //TODO: Den Thread wieder stoppen sdg
         }
 
+        /// <summary>
+        /// Event if the a messages is received from the server
+        /// </summary>
+        /// <param name="message">The message.</param>
         private void Repo_OnGetMessage(string message)
         {
             rawMessages.Enqueue(message);
             Console.WriteLine(message);
         }
 
+        /// <summary>
+        /// Pops the first message in the queue
+        /// </summary>
+        /// <returns></returns>
         public string PopRawMessage()
         {
-            if(rawMessages.Count != 0)
+
+            if (rawMessages.Count != 0)
                 return rawMessages.Dequeue();
             else
                 return string.Empty;
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            repo.StopMessageloop = true;
         }
     }
 }
