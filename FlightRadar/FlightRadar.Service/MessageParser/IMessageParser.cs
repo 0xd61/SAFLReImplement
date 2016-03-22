@@ -9,5 +9,6 @@ namespace FlightRadar.Service.MessageParser
     public interface IMessageParser
     {
         string Parse(string adsbSentence);
+        string ParseMessagetype(string message);
     }
 }

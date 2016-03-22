@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
-    class ADSBRawSentence
+    public class ADSBRawMessage : ADSBMessageBase
     {
-        public string Name { get; set; } = string.Empty;
-        public string ICAO { get; set; } = string.Empty;
+        public ADSBRawMessage() : base("","",0,0,0,0)
+        {
+
+        }
+        private ADSBMessagetype type;
     }
 }
