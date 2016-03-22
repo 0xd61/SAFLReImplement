@@ -16,6 +16,6 @@ namespace FlightRadar.Service.MessageParser
         string ParseIcao(string sentence);
         string ParsePayload(string sentence);
         string ParsePartiy(string sentence);
-        string ParseMessagetype(string message);
+        ADSBMessagetype ParseMessagetype(string payloadInBin);
     }
 }
