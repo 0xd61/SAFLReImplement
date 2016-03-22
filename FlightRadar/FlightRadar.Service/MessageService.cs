@@ -47,7 +47,7 @@ namespace FlightRadar.Service
         {
             if(repo.Connected == false)
             {
-
+                Console.WriteLine("Keine Verbindung zum repository...");
             }
 
 
@@ -63,7 +63,6 @@ namespace FlightRadar.Service
         public void Dispose()
         {
             repo.StopMessageloop = true;
-            workerThread.Join();
         }
     }
 }

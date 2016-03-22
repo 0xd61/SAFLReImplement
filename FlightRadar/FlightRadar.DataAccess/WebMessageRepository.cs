@@ -14,6 +14,9 @@ namespace FlightRadar.DataAccess
     {
         public string ServerURL { get; private set; } = string.Empty;
         WebRequest request = null;
+        WebResponse response = null;
+        Stream dataStream = null;
+        StreamReader reader = null;
 
         public WebMessageRepository(string url)
         {
@@ -23,14 +26,22 @@ namespace FlightRadar.DataAccess
 
         public override void StartMessageLoop()
         {
-            request = WebRequest.Create(ServerURL);
-            ((HttpWebRequest)request).UserAgent = ".NET Framework Example Client";
-            WebResponse response = request.GetResponse();
+            try
+            {
+                request = WebRequest.Create(ServerURL);
+                ((HttpWebRequest)request).UserAgent = ".NET Framework Example Client";
+                response = request.GetResponse();
 
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
 
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = null;
+                dataStream = response.GetResponseStream();
+                reader = null;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Es konnte keine Verbindung hergestellt werden...");
+                return;
+            }
 
             char[] buffer = new char[100];
             int bytesRead = 0;

@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace FlightRadar.Service
+namespace FlightRadar.Service.MessageParser
 {
-    class MessageParser : IMessageParser
+    class SimpleMessageParser : IMessageParser
     {
         /// <summary>
         /// parse String from JSON ADSB Sentence
