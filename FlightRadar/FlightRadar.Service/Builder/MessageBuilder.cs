@@ -56,7 +56,7 @@ namespace FlightRadar.Service.Builder
 
         private ADSBMessageBase BuildIdentificationMessage(string payloadInBin)
         {
-            ADSBPositionMessage msg = new ADSBPositionMessage(0,0,0,0,0,0,0);
+            ADSBPositionMessage msg = new ADSBPositionMessage(0,0,0,0,0,0,0); //Sinn???
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
             BuildBaseMessage(payloadInBin, ref baseMsg);
             msg = baseMsg as ADSBPositionMessage;
