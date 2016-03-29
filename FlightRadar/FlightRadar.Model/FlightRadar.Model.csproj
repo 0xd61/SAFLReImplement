@@ -43,7 +43,6 @@
     <Compile Include="ADSBMessageBase.cs" />
     <Compile Include="ADSBMessageContainer.cs" />
     <Compile Include="ADSBPositionMessage.cs" />
-    <Compile Include="ADSBRawMessage.cs" />
     <Compile Include="ADSBVelocityMessage.cs" />
     <Compile Include="ADSBIdentificationMessage.cs" />
     <Compile Include="Plane.cs" />
