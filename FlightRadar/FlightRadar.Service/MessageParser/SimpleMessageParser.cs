@@ -50,8 +50,9 @@ namespace FlightRadar.Service.MessageParser
 
         public ADSBMessagetype ParseMessagetype(string payloadInBin)
         {
-            int typeCode = Convert.ToInt32(payloadInBin.Substring(0, 4));
+            int typeCode = Convert.ToInt32(payloadInBin.Substring(0, 4),2);
 
+            //TODO: Surface Message benötigt?
             if (typeCode == 0 || (typeCode >= 9 && typeCode <= 18) || (typeCode >= 20 && typeCode <= 22))
                 return ADSBMessagetype.Position;
             if (typeCode >= 1 && typeCode <= 4)

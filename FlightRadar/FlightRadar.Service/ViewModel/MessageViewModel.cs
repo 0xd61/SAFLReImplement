@@ -33,7 +33,7 @@ namespace FlightRadar.Service.ViewModel
         {
             string msg = messageService.PopRawMessage();
 
-            if(msg != string.Empty)
+            if (msg != string.Empty && msg.Contains("ADS-B"))
             {
                 messageBuilder.BuildMessage(msg);
                 RawMessages.Add(msg);
