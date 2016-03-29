@@ -47,6 +47,7 @@
     <Compile Include="ADSBIdentificationMessage.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="PlaneContainer.cs" />
+    <Compile Include="PlanePosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
