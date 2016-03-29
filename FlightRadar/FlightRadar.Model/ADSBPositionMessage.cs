@@ -8,7 +8,17 @@ namespace FlightRadar.Model
 {
     public class ADSBPositionMessage : ADSBMessageBase
     {
-        public int ICAO { get; set; } = 0;
+        public int SurveillanceStatus { get; set; }
+        public int NicSupplement { get; set; }
+        public int Altitude { get; set; }
+        public int TimeFlag { get; set; }
+        public int CprFormate { get; set; }
+        public int CprLongitude { get; set; }
+        public int CprLatitude { get; set; }
 
+        public ADSBPositionMessage()
+        {
+                          
+        }
     }
 }

@@ -32,11 +32,16 @@ namespace FlightRadar.UI
 
             listBox1.Items.Clear();
 
-            foreach(string s in viewModel.RawMessages)
-            {
-                listBox1.Items.Add(s);
-            }
+            //foreach(string s in viewModel.RawMessages)
+            //{
+            //    listBox1.Items.Add(s);
+            //}
 
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            viewModel?.Dispose();
         }
     }
 }

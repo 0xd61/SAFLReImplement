@@ -7,33 +7,45 @@ using System.Threading.Tasks;
 
 using FlightRadar.DataAccess;
 using System.Threading;
+using FlightRadar.Service.MessageParser;
+using FlightRadar.Service.Builder;
 
 namespace FlightRadar.Service.ViewModel
 {
-    public class MessageViewModel
+    public class MessageViewModel : IDisposable
     {
-        /// <summary>
-        /// Hält die liste von Nachrichten
-        /// </summary>
-        public List<ADSBMessageBase> MessageList { get; set; } = new List<ADSBMessageBase>();
-        public List<string> RawMessages { get; set; } = new List<string>();
-
         private IMessageService messageService = null;
+        private IMessageBuilder messageBuilder = null;
+        private PlaneContainer planes = null;
 
         public MessageViewModel()
         {
             messageService = new MessageService(new WebMessageRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence"));
+            messageBuilder = new MessageBuilder(new SimpleMessageParser());
+            planes = new PlaneContainer();
         }
 
-        /// <summary>
-        /// Holt eine Message
-        /// </summary>
         public void Update()
         {
             string msg = messageService.PopRawMessage();
 
-            if(msg != string.Empty)
-                RawMessages.Add(messageService.PopRawMessage());
+            if (msg != string.Empty)
+            {
+                ADSBMessageBase parsedMessage = messageBuilder.BuildMessage(msg);
+                if (parsedMessage == null)
+                    return;
+
+                if (!planes.ContainsKey(parsedMessage.ICAO))
+                    planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
+                Console.WriteLine(parsedMessage.ToString());
+                planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
+            }
+
+        }
+
+        public void Dispose()
+        {
+            messageService?.Dispose();
         }
     }
 }
