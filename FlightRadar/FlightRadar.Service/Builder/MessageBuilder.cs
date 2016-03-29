@@ -28,7 +28,12 @@ namespace FlightRadar.Service.Builder
         public ADSBMessageBase BuildMessage(string sentence)
         {
             string message = parser.Parse(sentence);
-            string payloadInBin = Convert.ToString(Convert.ToByte(message, 16), 2); //TODO:Testen, ob Nullen am Anfang
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in message)
+                sb.Append(Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0')); //TODO: Besser  machen!
+
+            string payloadInBin = sb.ToString(); //Convert.ToString(Convert.ToByte(message, 16), 2); //TODO:Testen, ob Nullen am Anfang
 
             ADSBMessagetype type = parser.ParseMessagetype(payloadInBin);
             return builderMethods[type].Invoke(payloadInBin);
