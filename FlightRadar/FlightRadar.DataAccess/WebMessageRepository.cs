@@ -55,8 +55,9 @@ namespace FlightRadar.DataAccess
                 {
                     reader = new StreamReader(dataStream);
                     bytesRead = reader.Read(buffer, 0, 100);
-
-                    base.NotifyListener(new string(buffer));
+                    string message = new string(buffer);
+                    if (message.Contains("ADS-B"))
+                        base.NotifyListener(message);
                 }
 
             }

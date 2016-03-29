@@ -19,5 +19,10 @@ namespace FlightRadar.Model
         public ADSBMessageBase ()
         {
         }
+
+        public override string ToString()
+        {
+            return "ICAO: " + ICAO;
+        }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
-    class Plane
+    public class Plane
     {
         public string ICAO { get; } = string.Empty;
         private ADSBMessageContainer Messages = new ADSBMessageContainer();
-        public DateTime Time;
+        public DateTime Time{ get; private set; }
 
         public Plane(string ICAO)
         {

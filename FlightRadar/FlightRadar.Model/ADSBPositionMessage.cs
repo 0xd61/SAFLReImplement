@@ -8,26 +8,17 @@ namespace FlightRadar.Model
 {
     public class ADSBPositionMessage : ADSBMessageBase
     {
-        public int SurveillanceStatus { get; private set; }
-        public int NicSupplement { get; private set; }
-        public int Altitude { get; private set; }
-        public int TimeFlag { get; private set; }
-        public int CprFormate { get; private set; }
-        public int CprLongitude { get; private set; }
-        public int CprLatitude { get; private set; }
+        public int SurveillanceStatus { get; set; }
+        public int NicSupplement { get; set; }
+        public int Altitude { get; set; }
+        public int TimeFlag { get; set; }
+        public int CprFormate { get; set; }
+        public int CprLongitude { get; set; }
+        public int CprLatitude { get; set; }
 
-        public ADSBPositionMessage( int SurveillanceStatus,
-                                    int NicSupplement, int Altitude,
-                                    int TimeFlag, int CprFormate,
-                                    int CprLongitude, int CprLatitude)
+        public ADSBPositionMessage()
         {
-            this.SurveillanceStatus = SurveillanceStatus;
-            this.NicSupplement = NicSupplement;
-            this.Altitude = Altitude;
-            this.TimeFlag = TimeFlag;
-            this.CprFormate = CprFormate;
-            this.CprLongitude = CprLongitude;
-            this.CprLatitude = CprLatitude;
+                          
         }
     }
 }

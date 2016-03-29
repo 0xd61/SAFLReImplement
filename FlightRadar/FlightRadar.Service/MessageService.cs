@@ -36,7 +36,7 @@ namespace FlightRadar.Service
         private void Repo_OnGetMessage(string message)
         {
             rawMessages.Enqueue(message);
-            Console.WriteLine(message);
+            //Console.WriteLine(message);
         }
 
         /// <summary>

@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
-    class ADSBIdentificationMessage : ADSBMessageBase
+    public class ADSBIdentificationMessage : ADSBMessageBase
     {
-        public int EmitterCategory { get; private set; }
-        public string AircraftID { get; private set; }
+        public int EmitterCategory { get; set; }
+        public string AircraftID { get;  set; }
 
-        public ADSBIdentificationMessage(int EmitterCategory, string AircraftID)
+        public ADSBIdentificationMessage()
         {
-            this.EmitterCategory = EmitterCategory;
-            this.AircraftID = AircraftID;
         }
     }
 }

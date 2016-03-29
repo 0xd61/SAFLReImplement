@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
-    class PlaneContainer : Dictionary<string, Plane>
+    public class PlaneContainer : Dictionary<string, Plane>
     {
         
     }

@@ -27,6 +27,8 @@ namespace FlightRadar.Service.Builder
 
         public ADSBMessageBase BuildMessage(string sentence)
         {
+
+            BuildIdentificationMessage(sentence);
             string message = parser.Parse(sentence);
             string payload = parser.ParsePayload(message);
             StringBuilder sb = new StringBuilder();
@@ -46,25 +48,34 @@ namespace FlightRadar.Service.Builder
 
         private ADSBMessageBase BuildPositionMessage(string payloadInBin)
         {
-            return null;
+            ADSBPositionMessage msg = new ADSBPositionMessage();
+            ADSBMessageBase baseMsg = msg as ADSBMessageBase;
+            BuildBaseMessage(payloadInBin, ref baseMsg);
+            msg = baseMsg as ADSBPositionMessage;
+            return msg;
         }
 
         private ADSBMessageBase BuildVelocityMessage(string payloadInBin)
         {
-            return null;
-        }
-
-        private ADSBMessageBase BuildIdentificationMessage(string payloadInBin)
-        {
-            ADSBPositionMessage msg = new ADSBPositionMessage(0,0,0,0,0,0,0); //Sinn???
+            ADSBVelocityMessage msg = new ADSBVelocityMessage();
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
             BuildBaseMessage(payloadInBin, ref baseMsg);
-            msg = baseMsg as ADSBPositionMessage;
-            return null;
+            msg = baseMsg as ADSBVelocityMessage;
+            return msg;
+        }
+
+        public ADSBMessageBase BuildIdentificationMessage(string payloadInBin)
+        {
+            ADSBIdentificationMessage msg = new ADSBIdentificationMessage();
+            ADSBMessageBase baseMsg = msg as ADSBMessageBase;
+            BuildBaseMessage(payloadInBin, ref baseMsg);
+            msg = baseMsg as ADSBIdentificationMessage;
+            return msg;
         }
 
         private void BuildBaseMessage(string payloadInBin, ref ADSBMessageBase baseMsg)
         {
+            baseMsg.ICAO = "HELLO"; // NOTE: Nur zum Test :-)
         } 
     }
 }

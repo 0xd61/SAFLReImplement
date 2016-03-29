@@ -14,29 +14,31 @@ namespace FlightRadar.Service.ViewModel
 {
     public class MessageViewModel : IDisposable
     {
-        public List<ADSBMessageBase> MessageList { get; set; } = new List<ADSBMessageBase>();
-        public List<string> RawMessages { get; set; } = new List<string>();
-
         private IMessageService messageService = null;
-        private IMessageParser messageParser = null;
         private IMessageBuilder messageBuilder = null;
+        private PlaneContainer planes = null;
 
         public MessageViewModel()
         {
             messageService = new MessageService(new WebMessageRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence"));
-            messageParser = new SimpleMessageParser();
-            messageBuilder = new MessageBuilder(messageParser);
-            
+            messageBuilder = new MessageBuilder(new SimpleMessageParser());
+            planes = new PlaneContainer();
         }
 
         public void Update()
         {
             string msg = messageService.PopRawMessage();
 
-            if (msg != string.Empty && msg.Contains("ADS-B"))
+            if (msg != string.Empty)
             {
-                messageBuilder.BuildMessage(msg);
-                RawMessages.Add(msg);
+                ADSBMessageBase parsedMessage = messageBuilder.BuildMessage(msg);
+                if (parsedMessage == null)
+                    return;
+
+                if (!planes.ContainsKey(parsedMessage.ICAO))
+                    planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
+                Console.WriteLine(parsedMessage.ToString());
+                planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
             }
 
         }
