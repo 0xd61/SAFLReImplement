@@ -8,7 +8,12 @@ namespace FlightRadar.Model
 {
     class Plane
     {
-        public string ICAO { get; set; } = string.Empty;
-        public ADSBMessageContainer Messages = new ADSBMessageContainer();
+        public string ICAO { get; } = string.Empty;
+        public ADSBMessageContainer Messages { get; } = new ADSBMessageContainer();
+
+        public Plane(string ICAO)
+        {
+            this.ICAO = ICAO;
+        }
     }
 }
