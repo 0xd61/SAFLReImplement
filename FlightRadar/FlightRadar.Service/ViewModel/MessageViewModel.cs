@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FlightRadar.DataAccess;
 using System.Threading;
 using FlightRadar.Service.MessageParser;
+using FlightRadar.Service.Builder;
 
 namespace FlightRadar.Service.ViewModel
 {
@@ -18,11 +19,14 @@ namespace FlightRadar.Service.ViewModel
 
         private IMessageService messageService = null;
         private IMessageParser messageParser = null;
+        private IMessageBuilder messageBuilder = null;
 
         public MessageViewModel()
         {
             messageService = new MessageService(new WebMessageRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence"));
             messageParser = new SimpleMessageParser();
+            messageBuilder = new MessageBuilder(messageParser);
+            
         }
 
         public void Update()
@@ -31,6 +35,7 @@ namespace FlightRadar.Service.ViewModel
 
             if(msg != string.Empty)
             {
+                messageBuilder.BuildMessage(msg);
                 RawMessages.Add(msg);
             }
 
