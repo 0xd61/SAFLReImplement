@@ -36,6 +36,10 @@ namespace FlightRadar.Service.Builder
             string payloadInBin = sb.ToString();
 
             ADSBMessagetype type = parser.ParseMessagetype(payloadInBin);
+
+            if (type == ADSBMessagetype.undefined)
+                return null;
+
             return builderMethods[type].Invoke(payloadInBin);
 
         }
