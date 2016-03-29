@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
-    public class ADSBMessageContainer : Dictionary<string, ADSBMessageBase>
+    public class ADSBMessageContainer : List<ADSBMessageBase>
     {
 
     }
