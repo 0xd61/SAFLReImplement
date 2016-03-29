@@ -11,7 +11,7 @@ namespace FlightRadar.Service.MessageParser
     class SimpleMessageParser : IMessageParser
     {
         /// <summary>
-        /// parse String from JSON ADSB Sentence
+        /// parse String from JSON to ADSB Sentence
         /// </summary>
         /// <param name="adsbSentence"></param>
         /// <returns></returns>
