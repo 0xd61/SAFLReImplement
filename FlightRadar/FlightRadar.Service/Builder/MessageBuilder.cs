@@ -53,6 +53,9 @@ namespace FlightRadar.Service.Builder
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
             BuildBaseMessage(message, ref baseMsg);
             msg = baseMsg as ADSBPositionMessage;
+
+
+
             return msg;
         }
 
@@ -62,6 +65,10 @@ namespace FlightRadar.Service.Builder
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
             BuildBaseMessage(message, ref baseMsg);
             msg = baseMsg as ADSBVelocityMessage;
+
+
+
+
             return msg;
         }
 
@@ -71,6 +78,10 @@ namespace FlightRadar.Service.Builder
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
             BuildBaseMessage(message, ref baseMsg);
             msg = baseMsg as ADSBIdentificationMessage;
+
+            
+
+
             return msg;
         }
 
@@ -79,7 +90,6 @@ namespace FlightRadar.Service.Builder
             baseMsg.ICAO = parser.ParseIcao(message);
             baseMsg.Timestamp = parser.ParseTimestamp(message);
             baseMsg.Payload = parser.ParsePayload(message);
-
         } 
     }
 }
