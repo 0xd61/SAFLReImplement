@@ -37,6 +37,7 @@ namespace FlightRadar.Service.Builder
                 sb.Append(Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0')); //TODO: Besser  machen!
             string payloadInBin = sb.ToString();
 
+
             ADSBMessagetype type = parser.ParseMessagetype(payloadInBin);
 
             if (type == ADSBMessagetype.undefined)
