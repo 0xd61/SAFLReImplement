@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
-    class PlanePosition
+    public class PlanePosition
     {
-        public DateTime PositionTimestamp { get; }
-        public double Latitude { get; }
-        public double Longitude { get; }
-        public double Altitude { get; }
+        public DateTime PositionTimestamp { public get; }
+        public double Latitude { public get; }
+        public double Longitude { public get; }
+        public double Altitude { public get; }
 
         public PlanePosition(DateTime Timestamp, double Latitude, double Longitude, double Altitude)
         {
