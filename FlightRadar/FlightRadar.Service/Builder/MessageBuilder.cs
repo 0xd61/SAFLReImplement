@@ -48,7 +48,6 @@ namespace FlightRadar.Service.Builder
             BuildBaseMessage(message, ref baseMsg);
             msg = baseMsg as ADSBPositionMessage;
             
-            msg.Altitude = 
 
 
             return msg;
