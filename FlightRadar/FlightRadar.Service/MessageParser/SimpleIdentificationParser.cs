@@ -7,7 +7,7 @@ using FlightRadar.Model;
 
 namespace FlightRadar.Service.MessageParser
 {
-    class SimpleIdentificationParser : IPayloadParser
+    public class SimpleIdentificationParser : IPayloadParser
     {
         public ADSBMessageBase ParseMessage(ADSBMessageBase message)
         {
