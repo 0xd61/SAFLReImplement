@@ -8,12 +8,12 @@ namespace FlightRadar.Model
 {
     public class PlanePosition
     {
-        public DateTime PositionTimestamp { public get; }
-        public double Latitude { public get; }
-        public double Longitude { public get; }
-        public double Altitude { public get; }
+        public string PositionTimestamp { get; }
+        public double Latitude { get; }
+        public double Longitude { get; }
+        public double Altitude { get; }
 
-        public PlanePosition(DateTime Timestamp, double Latitude, double Longitude, double Altitude)
+        public PlanePosition(string Timestamp, double Latitude, double Longitude, double Altitude)
         {
             this.PositionTimestamp = Timestamp;
             this.Latitude = Latitude;

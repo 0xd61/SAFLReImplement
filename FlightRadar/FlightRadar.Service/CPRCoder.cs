@@ -29,7 +29,12 @@ namespace FlightRadar.Service
             double DLat = (Cpr == 0) ? Dlat0 : Dlat1;
             double j = Math.Floor(LatitudeReference / DLat) + Math.Floor(0.5 + mod(LatitudeReference, DLat) / DLat - LatitudeCpr / Nb17);
             double RLat = (double)DLat * (j + LatitudeCpr / Nb17);
+
             double Dlon = 360.0 / (NumberOfLongitudeZones.lookup(RLat) - Cpr);
+            double m = Math.Floor(LongitudeReference / Dlon) + Math.Floor(0.5 + mod(LongitudeReference, Dlon) / Dlon - LongitudeCpr / Nb17);
+            double RLon = (double)Dlon * (m + LongitudeCpr / Nb17);
+
+            return new PlanePosition(NewMessage.Timestamp, (double)RLat, (double)RLon, (double) NewMessage.Altitude);
 
 
         }
@@ -37,13 +42,7 @@ namespace FlightRadar.Service
 
         /*      
 
-            double dlat = (cpr == 0) ? Dlat0 : Dlat1;
-            Double j = new Double(Math.floor(lat_ref / dlat) + Math.floor(0.5 + mod(lat_ref, dlat) / dlat - lat_cpr / Nb17));
-            double rlat = (double)dlat * (j + lat_cpr / Nb17);
-
-            double dlon = 360.0 / (NumberOfLongitudeZones.lookup(rlat) - cpr);
-            Double m = new Double(Math.floor(lon_ref / dlon) + Math.floor(0.5 + mod(lon_ref, dlon) / dlon - lon_cpr / Nb17));
-            double rlon = (double)dlon * (m + lon_cpr / Nb17);
+           
 
             //System.err.println ( String.format("%-8s LAT LON %-3.8f %-3.8f local pos", newMsg.getIcao(), rlat, rlon) );
             return new Position(newMsg.getTimestamp(), (double)rlat, (double)rlon, (double)newMsg.getAltitude());
