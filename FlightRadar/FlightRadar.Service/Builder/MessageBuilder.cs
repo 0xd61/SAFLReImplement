@@ -30,20 +30,14 @@ namespace FlightRadar.Service.Builder
 
             BuildIdentificationMessage(sentence);
             string message = parser.Parse(sentence);
-            string payload = parser.ParsePayload(message);
-            StringBuilder sb = new StringBuilder();
-
-            foreach (char c in payload)
-                sb.Append(Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0')); //TODO: Besser  machen!
-            string payloadInBin = sb.ToString();
-
-
-            ADSBMessagetype type = parser.ParseMessagetype(payloadInBin);
+            string payload = parser.ParsePayload(message).ToBin();
+        
+            ADSBMessagetype type = parser.ParseMessagetype(payload);
 
             if (type == ADSBMessagetype.undefined)
                 return null;
 
-            return builderMethods[type].Invoke(payloadInBin);
+            return builderMethods[type].Invoke(payload);
 
         }
 
@@ -53,6 +47,7 @@ namespace FlightRadar.Service.Builder
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
             BuildBaseMessage(message, ref baseMsg);
             msg = baseMsg as ADSBPositionMessage;
+            
 
 
 
@@ -89,7 +84,7 @@ namespace FlightRadar.Service.Builder
         {
             baseMsg.ICAO = parser.ParseIcao(message);
             baseMsg.Timestamp = parser.ParseTimestamp(message);
-            baseMsg.Payload = parser.ParsePayload(message);
+            baseMsg.Payload = parser.ParsePayload(message).ToBin();
         } 
     }
 }

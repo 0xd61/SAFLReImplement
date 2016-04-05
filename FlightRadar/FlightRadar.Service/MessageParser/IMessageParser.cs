@@ -11,7 +11,7 @@ namespace FlightRadar.Service.MessageParser
     {
         string Parse(string adsbSentence);
 
-        string ParseTimestamp(string sentence);
+        DateTime ParseTimestamp(string sentence);
         string ParseDfca(string sentence);
         string ParseIcao(string sentence);
         string ParsePayload(string sentence);

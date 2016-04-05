@@ -14,7 +14,10 @@ namespace FlightRadar.Model
         public int Type { get; set; }
         public int DownlinkFormat { get; set; }
         public int Capability { get; set; }
-        public int Payload { get; set; }
+        /// <summary>
+        /// Payload in Binary
+        /// </summary>
+        public string Payload { get; set; }
 
         public ADSBMessageBase ()
         {
