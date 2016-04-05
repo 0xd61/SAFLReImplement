@@ -37,52 +37,59 @@ namespace FlightRadar.Service
             return new PlanePosition(NewMessage.Timestamp, (double)RLat, (double)RLon, (double)NewMessage.Altitude);
         }
 
-      
-
-
-
-        /*        public static Position decodeGlobalAirborne(AdsbAirposMsg oldMsg, AdsbAirposMsg newMsg) throws IllegalArgumentException
-                {
-                if ( ! oldMsg.getIcao().equals( newMsg.getIcao()) ) {
-                        throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Expecting two Messages with equal icao");
-                    }
-                if ( oldMsg.getCprFormat() == newMsg.getCprFormat() ) {
-                        throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Expecting two Messages with differnt CPR formats");
-                    }
-
-                double tsOld = Double.parseDouble(oldMsg.getTimestamp());
-                double tsNew = Double.parseDouble(newMsg.getTimestamp());
-                if ( Math.abs( tsOld - tsNew ) > 10.0 ) {
-                    throw new IllegalArgumentException("CprCoder: Expecting two Messages within max 10 sec time difference");
+        public static PlanePosition DecodeGlobalADSB(ADSBPositionMessage OldADSBMessage, ADSBPositionMessage NewADSBMessage)
+        {
+            if (!OldADSBMessage.ICAO.Equals(NewADSBMessage.ICAO))
+            {
+                throw new ArgumentException("Not the same ICAO! -> CPRCoder static PlanePosition");
             }
-            int i = newMsg.getCprFormat();
-            // decode latitude
-            double cprLat0 = (i == 0) ? newMsg.getCprLatitude() : oldMsg.getCprLatitude();
-            double cprLat1 = (i == 1) ? newMsg.getCprLatitude() : oldMsg.getCprLatitude();
-            Double j = Math.floor(((59 * cprLat0 - 60 * cprLat1) / Nb17) + 0.5); // compute latitude index j in the range -59 .. +58
-            double rlat0 = Dlat0 * (mod(j, 60) + cprLat0 / Nb17);
-            double rlat1 = Dlat1 * (mod(j, 59) + cprLat1 / Nb17);
-            // use last rlat as true latitude 
-            double latitude = (i == 0) ? rlat0 : rlat1;
-            int nl = 0; 
-            if ( (nl = NumberOfLongitudeZones.lookup(rlat0)) != NumberOfLongitudeZones.lookup(rlat1) ) {
+
+            if (OldADSBMessage.CprFormate == NewADSBMessage.CprFormate)
+            {
+                throw new ArgumentException("Same CPR - Error!");
+            }
+
+            TimeSpan OldMesTimespan = TimeSpan.FromTicks(OldADSBMessage.Timestamp.Ticks);
+            TimeSpan NewMesTimespan = TimeSpan.FromTicks(NewADSBMessage.Timestamp.Ticks);
+
+            if ((NewMesTimespan.TotalSeconds - OldMesTimespan.TotalSeconds) > 10)
+            {
+                throw new ArgumentException("Timestamp too old!");
+            }
+
+            int i = NewADSBMessage.CprFormate;
+
+            //Latitude
+            double CprLat0 = (i == 0) ? NewADSBMessage.CprLatitude : OldADSBMessage.CprLatitude;
+            double CprLat1 = (i == 1) ? NewADSBMessage.CprLatitude : OldADSBMessage.CprLatitude;
+            double j = Math.Floor(((59 * CprLat0 - 60 * CprLat1) / Nb17) + 0.5);
+            double RLat0 = Dlat0 * (mod(j, 60) + CprLat0 / Nb17);
+            double RLat1 = Dlat1 * (mod(j, 59) + CprLat1 / Nb17);
+
+            double latitude = (i == 0) ? RLat0 : RLat1;
+            int nl = 0;
+            if ((nl = NumberOfLongitudeZones.lookup(RLat0)) != NumberOfLongitudeZones.lookup(RLat1))
+            {
                 // if the longitude zones are not the same, we cannot calculate the longitude	
                 // so we discard this position object
-                throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Messages with matching number of longitude zones expected");
-        }
-        // decode longitude
-        double cprLon0 = (i == 0) ? newMsg.getCprLongitude() : oldMsg.getCprLongitude();
-        double cprLon1 = (i == 1) ? newMsg.getCprLongitude() : oldMsg.getCprLongitude();
-        Double m = new Double(Math.floor((cprLon0 * (nl - 1) - cprLon1 * nl) / Nb17 + 0.5));
-        double lon = (i == 0) ? cprLon0 : cprLon1;
-        double dlon = 360.0 / Math.max(nl - i, 1);
-        double longitude = dlon * (mod(m, nl - i) + lon / Nb17);
+                throw new ArgumentException("CprCoder.decodeGlobalAirborne(): Messages with matching number of longitude zones expected");
+            }
+
+            double CprLon0 = (i == 0) ? NewADSBMessage.CprLongitude : OldADSBMessage.CprLongitude;
+            double CprLon1 = (i == 1) ? NewADSBMessage.CprLongitude : OldADSBMessage.CprLongitude;
+            double m = Math.Floor((CprLon0 * (nl - 1) - CprLon1 * nl) / Nb17 + 0.5);
+            double lon = (i == 0) ? CprLon0 : CprLon1;
+            double dlon = 360.0 / Math.Max(nl - i, 1);
+            double longitude = dlon * (mod(m, nl - i) + lon / Nb17);
             //System.err.println ( String.format("%-8s LAT LON %-3.8f %-3.8f global pos", newMsg.getIcao(), latitude, longitude) );
-            return new Position(newMsg.getTimestamp(), (double) latitude, (double) longitude, (double) newMsg.getAltitude() );
+            return new PlanePosition(NewADSBMessage.Timestamp, (double)latitude, (double)longitude, (double)NewADSBMessage.Altitude);
+
+
         }
 
 
-            */
+
+
         private static double mod(double x, double y)
         {
             return (double)x - y * Math.Floor(x / y);
