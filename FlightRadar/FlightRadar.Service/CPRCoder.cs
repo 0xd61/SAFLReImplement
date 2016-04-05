@@ -34,66 +34,58 @@ namespace FlightRadar.Service
             double m = Math.Floor(LongitudeReference / Dlon) + Math.Floor(0.5 + mod(LongitudeReference, Dlon) / Dlon - LongitudeCpr / Nb17);
             double RLon = (double)Dlon * (m + LongitudeCpr / Nb17);
 
-            return new PlanePosition(NewMessage.Timestamp, (double)RLat, (double)RLon, (double) NewMessage.Altitude);
+            return new PlanePosition(NewMessage.Timestamp, (double)RLat, (double)RLon, (double)NewMessage.Altitude);
+        }
+
+      
 
 
+
+        /*        public static Position decodeGlobalAirborne(AdsbAirposMsg oldMsg, AdsbAirposMsg newMsg) throws IllegalArgumentException
+                {
+                if ( ! oldMsg.getIcao().equals( newMsg.getIcao()) ) {
+                        throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Expecting two Messages with equal icao");
+                    }
+                if ( oldMsg.getCprFormat() == newMsg.getCprFormat() ) {
+                        throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Expecting two Messages with differnt CPR formats");
+                    }
+
+                double tsOld = Double.parseDouble(oldMsg.getTimestamp());
+                double tsNew = Double.parseDouble(newMsg.getTimestamp());
+                if ( Math.abs( tsOld - tsNew ) > 10.0 ) {
+                    throw new IllegalArgumentException("CprCoder: Expecting two Messages within max 10 sec time difference");
+            }
+            int i = newMsg.getCprFormat();
+            // decode latitude
+            double cprLat0 = (i == 0) ? newMsg.getCprLatitude() : oldMsg.getCprLatitude();
+            double cprLat1 = (i == 1) ? newMsg.getCprLatitude() : oldMsg.getCprLatitude();
+            Double j = Math.floor(((59 * cprLat0 - 60 * cprLat1) / Nb17) + 0.5); // compute latitude index j in the range -59 .. +58
+            double rlat0 = Dlat0 * (mod(j, 60) + cprLat0 / Nb17);
+            double rlat1 = Dlat1 * (mod(j, 59) + cprLat1 / Nb17);
+            // use last rlat as true latitude 
+            double latitude = (i == 0) ? rlat0 : rlat1;
+            int nl = 0; 
+            if ( (nl = NumberOfLongitudeZones.lookup(rlat0)) != NumberOfLongitudeZones.lookup(rlat1) ) {
+                // if the longitude zones are not the same, we cannot calculate the longitude	
+                // so we discard this position object
+                throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Messages with matching number of longitude zones expected");
+        }
+        // decode longitude
+        double cprLon0 = (i == 0) ? newMsg.getCprLongitude() : oldMsg.getCprLongitude();
+        double cprLon1 = (i == 1) ? newMsg.getCprLongitude() : oldMsg.getCprLongitude();
+        Double m = new Double(Math.floor((cprLon0 * (nl - 1) - cprLon1 * nl) / Nb17 + 0.5));
+        double lon = (i == 0) ? cprLon0 : cprLon1;
+        double dlon = 360.0 / Math.max(nl - i, 1);
+        double longitude = dlon * (mod(m, nl - i) + lon / Nb17);
+            //System.err.println ( String.format("%-8s LAT LON %-3.8f %-3.8f global pos", newMsg.getIcao(), latitude, longitude) );
+            return new Position(newMsg.getTimestamp(), (double) latitude, (double) longitude, (double) newMsg.getAltitude() );
         }
 
 
-        /*      
-
-           
-
-            //System.err.println ( String.format("%-8s LAT LON %-3.8f %-3.8f local pos", newMsg.getIcao(), rlat, rlon) );
-            return new Position(newMsg.getTimestamp(), (double)rlat, (double)rlon, (double)newMsg.getAltitude());
-        }
-
-
-        public static Position decodeGlobalAirborne(AdsbAirposMsg oldMsg, AdsbAirposMsg newMsg) throws IllegalArgumentException
-        {
-    	if ( ! oldMsg.getIcao().equals( newMsg.getIcao()) ) {
-                throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Expecting two Messages with equal icao");
-            }
-    	if ( oldMsg.getCprFormat() == newMsg.getCprFormat() ) {
-                throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Expecting two Messages with differnt CPR formats");
-            }
-
-        double tsOld = Double.parseDouble(oldMsg.getTimestamp());
-        double tsNew = Double.parseDouble(newMsg.getTimestamp());
-    	if ( Math.abs( tsOld - tsNew ) > 10.0 ) {
-    		throw new IllegalArgumentException("CprCoder: Expecting two Messages within max 10 sec time difference");
-    }
-    int i = newMsg.getCprFormat();
-    // decode latitude
-    double cprLat0 = (i == 0) ? newMsg.getCprLatitude() : oldMsg.getCprLatitude();
-    double cprLat1 = (i == 1) ? newMsg.getCprLatitude() : oldMsg.getCprLatitude();
-    Double j = Math.floor(((59 * cprLat0 - 60 * cprLat1) / Nb17) + 0.5); // compute latitude index j in the range -59 .. +58
-    double rlat0 = Dlat0 * (mod(j, 60) + cprLat0 / Nb17);
-    double rlat1 = Dlat1 * (mod(j, 59) + cprLat1 / Nb17);
-    // use last rlat as true latitude 
-    double latitude = (i == 0) ? rlat0 : rlat1;
-    int nl = 0; 
-	if ( (nl = NumberOfLongitudeZones.lookup(rlat0)) != NumberOfLongitudeZones.lookup(rlat1) ) {
-	    // if the longitude zones are not the same, we cannot calculate the longitude	
-	    // so we discard this position object
-		throw new IllegalArgumentException("CprCoder.decodeGlobalAirborne(): Messages with matching number of longitude zones expected");
-}
-// decode longitude
-double cprLon0 = (i == 0) ? newMsg.getCprLongitude() : oldMsg.getCprLongitude();
-double cprLon1 = (i == 1) ? newMsg.getCprLongitude() : oldMsg.getCprLongitude();
-Double m = new Double(Math.floor((cprLon0 * (nl - 1) - cprLon1 * nl) / Nb17 + 0.5));
-double lon = (i == 0) ? cprLon0 : cprLon1;
-double dlon = 360.0 / Math.max(nl - i, 1);
-double longitude = dlon * (mod(m, nl - i) + lon / Nb17);
-	//System.err.println ( String.format("%-8s LAT LON %-3.8f %-3.8f global pos", newMsg.getIcao(), latitude, longitude) );
-	return new Position(newMsg.getTimestamp(), (double) latitude, (double) longitude, (double) newMsg.getAltitude() );
-}
-
-
-    */
+            */
         private static double mod(double x, double y)
         {
-            return (double)x - y * Math.floor(x / y);
+            return (double)x - y * Math.Floor(x / y);
         }
     }
     class NumberOfLongitudeZones
@@ -104,7 +96,7 @@ double longitude = dlon * (mod(m, nl - i) + lon / Nb17);
             // longitude (NL) zones with a given latitude
             // taken from 1090-WP-9-14: "Transition Table for NL(lat) Function"
             // this implementation does not work close to the poles (some entries missing).
-            double lat = Math.abs(cprLatitude);
+            double lat = Math.Abs(cprLatitude);
             if (lat < 10.47047130)
                 return 59;
             else if (lat < 14.82817437)
