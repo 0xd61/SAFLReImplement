@@ -16,6 +16,7 @@ namespace FlightRadar.Model
         public int CprLongitude { get; set; }
         public int CprLatitude { get; set; }
 
+
         public ADSBPositionMessage()
         {
                           

@@ -45,10 +45,11 @@
     <Compile Include="ClassExtension.cs" />
     <Compile Include="CPRCoder.cs" />
     <Compile Include="MessageParser\IMessageParser.cs" />
-    <Compile Include="IMessageService.cs" />
+    <Compile Include="MessageService\IMessageService.cs" />
     <Compile Include="MessageParser\SimpleMessageParser.cs" />
-    <Compile Include="MessageService.cs" />
+    <Compile Include="MessageService\MessageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFactory.cs" />
     <Compile Include="ViewModel\MessageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
