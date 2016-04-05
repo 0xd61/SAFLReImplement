@@ -47,36 +47,39 @@ namespace FlightRadar.Service.Builder
 
         }
 
-        private ADSBMessageBase BuildPositionMessage(string payloadInBin)
+        private ADSBMessageBase BuildPositionMessage(string message)
         {
             ADSBPositionMessage msg = new ADSBPositionMessage();
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
-            BuildBaseMessage(payloadInBin, ref baseMsg);
+            BuildBaseMessage(message, ref baseMsg);
             msg = baseMsg as ADSBPositionMessage;
             return msg;
         }
 
-        private ADSBMessageBase BuildVelocityMessage(string payloadInBin)
+        private ADSBMessageBase BuildVelocityMessage(string message)
         {
             ADSBVelocityMessage msg = new ADSBVelocityMessage();
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
-            BuildBaseMessage(payloadInBin, ref baseMsg);
+            BuildBaseMessage(message, ref baseMsg);
             msg = baseMsg as ADSBVelocityMessage;
             return msg;
         }
 
-        public ADSBMessageBase BuildIdentificationMessage(string payloadInBin)
+        public ADSBMessageBase BuildIdentificationMessage(string message)
         {
             ADSBIdentificationMessage msg = new ADSBIdentificationMessage();
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
-            BuildBaseMessage(payloadInBin, ref baseMsg);
+            BuildBaseMessage(message, ref baseMsg);
             msg = baseMsg as ADSBIdentificationMessage;
             return msg;
         }
 
-        private void BuildBaseMessage(string payloadInBin, ref ADSBMessageBase baseMsg)
+        private void BuildBaseMessage(string message, ref ADSBMessageBase baseMsg)
         {
-            baseMsg.ICAO = "HELLO"; // NOTE: Nur zum Test :-)
+            baseMsg.ICAO = parser.ParseIcao(message);
+            baseMsg.Timestamp = parser.ParseTimestamp(message);
+            baseMsg.Payload = parser.ParsePayload(message);
+
         } 
     }
 }
