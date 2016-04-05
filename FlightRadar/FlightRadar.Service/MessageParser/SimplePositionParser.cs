@@ -14,6 +14,12 @@ namespace FlightRadar.Service.MessageParser
             ADSBPositionMessage tmpMessage = (ADSBPositionMessage)message;
 
             tmpMessage.Altitude = ParseAltitude(message.Payload);
+            tmpMessage.SurveillanceStatus = ParseSurveillanceStatus(message.Payload);
+            tmpMessage.NicSupplement = ParseNicSupplement(message.Payload);
+            tmpMessage.TimeFlag = ParseTimeFlag(message.Payload);
+            tmpMessage.CprFormate = ParseCprFormate(message.Payload);
+            tmpMessage.CprLatitude = ParseCprLatitude(message.Payload);
+            tmpMessage.CprLongitude = ParseCprLongitude(message.Payload);
 
             return tmpMessage;
         }
