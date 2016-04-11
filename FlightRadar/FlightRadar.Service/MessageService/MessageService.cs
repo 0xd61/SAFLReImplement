@@ -47,7 +47,7 @@ namespace FlightRadar.Service
         {
             if(repo.Connected == false)
             {
-                Console.WriteLine("Keine Verbindung zum repository...");
+                Console.WriteLine("Keine Verbindung zum Repository...");
             }
 
 
