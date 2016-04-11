@@ -26,9 +26,25 @@ namespace FlightRadar.Service
             return new SimpleMessageParser();
         }
 
-        public static IMessageBuilder CreateMessageBuilderService(IMessageParser messageParser)
+        public static IPayloadParser CreatePayloadParserPosition()
         {
-            return new MessageBuilder(messageParser);
+            return new SimplePositionParser();
         }
+
+        public static IPayloadParser CreatePayloadParserVelocity()
+        {
+            return new SimpleVelocityParser();
+        }
+
+        public static IPayloadParser CreatePayloadParserIdentification()
+        {
+            return new SimpleIdentificationParser();
+        }
+
+        public static IMessageBuilder CreateMessageBuilderService(IMessageParser messageParser, IPayloadParser position, IPayloadParser velocity, IPayloadParser identification)
+        {
+            return new MessageBuilder(messageParser, position, velocity, identification);
+        }
+
     }
 }

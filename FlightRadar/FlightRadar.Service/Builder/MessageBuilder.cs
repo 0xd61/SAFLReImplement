@@ -20,7 +20,7 @@ namespace FlightRadar.Service.Builder
         private IPayloadParser payloadParserIdentification = null;
 
 
-        public MessageBuilder(IMessageParser parser)
+        public MessageBuilder(IMessageParser parser, IPayloadParser position, IPayloadParser veloctiy, IPayloadParser identification)
         {
             this.parser = parser;
 
@@ -28,9 +28,9 @@ namespace FlightRadar.Service.Builder
             builderMethods.Add(ADSBMessagetype.Velocity, BuildVelocityMessage);
             builderMethods.Add(ADSBMessagetype.Identification, BuildIdentificationMessage);
 
-            payloadParserPosition = new SimplePositionParser();
-            payloadParserVelocity = new SimpleVelocityParser();
-            payloadParserIdentification = new SimpleIdentificationParser();
+            payloadParserPosition = position;
+            payloadParserVelocity = veloctiy;
+            payloadParserIdentification = identification;
 
         }
 
@@ -55,6 +55,7 @@ namespace FlightRadar.Service.Builder
             BuildBaseMessage(message, ref baseMsg);
             baseMsg = payloadParserPosition.ParseMessage(baseMsg);
             msg = baseMsg as ADSBPositionMessage;
+            msg.TypeSimple = ADSBMessagetype.Position;
             
 
 
@@ -69,9 +70,7 @@ namespace FlightRadar.Service.Builder
             BuildBaseMessage(message, ref baseMsg);
             baseMsg = payloadParserVelocity.ParseMessage(baseMsg);
             msg = baseMsg as ADSBVelocityMessage;
-
-
-
+            msg.TypeSimple = ADSBMessagetype.Velocity;
 
             return msg;
         }
@@ -84,9 +83,7 @@ namespace FlightRadar.Service.Builder
             BuildBaseMessage(message, ref baseMsg);
             baseMsg = payloadParserIdentification.ParseMessage(baseMsg);
             msg = baseMsg as ADSBIdentificationMessage;
-
-            
-
+            msg.TypeSimple = ADSBMessagetype.Identification;
 
             return msg;
         }

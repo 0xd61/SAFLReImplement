@@ -17,9 +17,22 @@ namespace FlightRadar.Service.ViewModel
         private IMessageService messageService = null;
         private IMessageBuilder messageBuilder = null;
         private IMessageParser messageParser = null;
+
+        private IPayloadParser positionParser = null;
+        private IPayloadParser velocityParser = null;
+        private IPayloadParser identificationParser = null;
+
         private IMessageRepository messageRepository = null;
 
         public PlaneContainer Planes { get; } = null;
+
+        public bool IsConntected
+        {
+            get
+            {
+                return messageRepository.Connected;
+            }
+        }
 
         public MessageViewModel()
         {
@@ -27,28 +40,59 @@ namespace FlightRadar.Service.ViewModel
             messageService = ServiceFactory.CreateMessageService(messageRepository);
 
             messageParser = ServiceFactory.CreateMessageParserService();
-            messageBuilder = ServiceFactory.CreateMessageBuilderService(messageParser);
+            positionParser = ServiceFactory.CreatePayloadParserPosition();
+            velocityParser = ServiceFactory.CreatePayloadParserVelocity();
+            identificationParser = ServiceFactory.CreatePayloadParserIdentification();
+
+            messageBuilder = ServiceFactory.CreateMessageBuilderService(messageParser, positionParser, velocityParser, identificationParser);
 
             Planes = new PlaneContainer();
         }
 
         public void Update()
         {
-            string msg = messageService.PopRawMessage();
-
-            if (msg != string.Empty)
+            if (IsConntected)
             {
-                ADSBMessageBase parsedMessage = messageBuilder.BuildMessage(msg);
-                if (parsedMessage == null)
-                    return;
+                string msg = messageService.PopRawMessage();
 
-                if (!Planes.ContainsKey(parsedMessage.ICAO))
-                    Planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
-                Console.WriteLine(parsedMessage.ToString());
-                Planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
+                if (msg != string.Empty)
+                {
+                    ADSBMessageBase parsedMessage = messageBuilder.BuildMessage(msg);
+                    if (parsedMessage == null)
+                        return;
+
+                    if (!Planes.ContainsKey(parsedMessage.ICAO))
+                        Planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
+
+                    //Console.WriteLine(parsedMessage.ToString());
+
+
+                    Planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
+                } 
             }
 
         }
+        
+        public ADSBPositionMessage GetPositionMessage(string icao)
+        {
+            ADSBPositionMessage message = (ADSBPositionMessage)Planes[icao].getADSBMessageContainer().FirstOrDefault(e => e.TypeSimple == ADSBMessagetype.Position);
+
+            return message;
+        }
+
+        public ADSBVelocityMessage GetVelocityMessage(string icao)
+        {
+            ADSBVelocityMessage message = (ADSBVelocityMessage)Planes[icao].getADSBMessageContainer().FirstOrDefault(e => e.TypeSimple == ADSBMessagetype.Velocity);
+
+            return message;
+        }
+
+        public ADSBIdentificationMessage GetIdentificationMessage(string icao)
+        {
+            ADSBIdentificationMessage message = (ADSBIdentificationMessage)Planes[icao].getADSBMessageContainer().FirstOrDefault(e => e.TypeSimple == ADSBMessagetype.Identification);
+
+            return message;
+        }                               
 
         public void Dispose()
         {

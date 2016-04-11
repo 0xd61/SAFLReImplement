@@ -12,6 +12,7 @@ namespace FlightRadar.Model
         public DateTime Timestamp { get; set; }
         public string ICAO { get; set; } = string.Empty;
         public int Type { get; set; }
+        public ADSBMessagetype TypeSimple { get; set; }
         public int DownlinkFormat { get; set; }
         public int Capability { get; set; }
         /// <summary>
