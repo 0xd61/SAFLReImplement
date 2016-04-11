@@ -11,6 +11,11 @@ namespace FlightRadar.Service
 {
     public static class ServiceFactory
     {
+        public static IMessageRepository CreateWebRepository(string url)
+        {
+            return new WebMessageRepository(url);
+        }
+
         public static IMessageService CreateMessageService(IMessageRepository repository)
         {
             return new MessageService(repository);

@@ -16,13 +16,20 @@ namespace FlightRadar.Service.ViewModel
     {
         private IMessageService messageService = null;
         private IMessageBuilder messageBuilder = null;
-        private PlaneContainer planes = null;
+        private IMessageParser messageParser = null;
+        private IMessageRepository messageRepository = null;
+
+        public PlaneContainer Planes { get; } = null;
 
         public MessageViewModel()
         {
-            messageService = new MessageService(new WebMessageRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence"));
-            messageBuilder = new MessageBuilder(new SimpleMessageParser());
-            planes = new PlaneContainer();
+            messageRepository = ServiceFactory.CreateWebRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence");
+            messageService = ServiceFactory.CreateMessageService(messageRepository);
+
+            messageParser = ServiceFactory.CreateMessageParserService();
+            messageBuilder = ServiceFactory.CreateMessageBuilderService(messageParser);
+
+            Planes = new PlaneContainer();
         }
 
         public void Update()
@@ -35,10 +42,10 @@ namespace FlightRadar.Service.ViewModel
                 if (parsedMessage == null)
                     return;
 
-                if (!planes.ContainsKey(parsedMessage.ICAO))
-                    planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
+                if (!Planes.ContainsKey(parsedMessage.ICAO))
+                    Planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
                 Console.WriteLine(parsedMessage.ToString());
-                planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
+                Planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
             }
 
         }

@@ -1,4 +1,5 @@
 ﻿using FlightRadar.DataAccess;
+using FlightRadar.Model;
 using FlightRadar.Service.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -32,10 +33,11 @@ namespace FlightRadar.UI
 
             listBox1.Items.Clear();
 
-            //foreach(string s in viewModel.RawMessages)
-            //{
-            //    listBox1.Items.Add(s);
-            //}
+            foreach (KeyValuePair<string, Plane> entry in viewModel.Planes)
+            {
+                listBox1.Items.Add(entry.Key);
+            }
+
 
         }
 
