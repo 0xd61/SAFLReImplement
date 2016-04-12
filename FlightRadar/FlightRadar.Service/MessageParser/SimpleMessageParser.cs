@@ -23,9 +23,13 @@ namespace FlightRadar.Service.MessageParser
             return myString;
         }
 
-        public string ParseTimestamp(string sentence)
+        public DateTime ParseTimestamp(string sentence)
         {
-            return sentence.Substring(0, 18);
+            //TODO: Richtig parsen -> TimeSpan läuft über.
+            //TimeSpan span = TimeSpan.FromMilliseconds(Convert.ToInt64(sentence.Substring(0, 18), 10));
+            //DateTime time = new DateTime(1970, 1, 1) + span;
+            DateTime time = new DateTime(1920, 1, 1);
+            return time;
         }
 
         public string ParseDfca(string sentence)

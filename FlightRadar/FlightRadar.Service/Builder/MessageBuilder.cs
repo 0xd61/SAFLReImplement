@@ -15,7 +15,12 @@ namespace FlightRadar.Service.Builder
 
         private IMessageParser parser = null;
 
-        public MessageBuilder(IMessageParser parser)
+        private IPayloadParser payloadParserPosition = null;
+        private IPayloadParser payloadParserVelocity = null;
+        private IPayloadParser payloadParserIdentification = null;
+
+
+        public MessageBuilder(IMessageParser parser, IPayloadParser position, IPayloadParser veloctiy, IPayloadParser identification)
         {
             this.parser = parser;
 
@@ -23,59 +28,71 @@ namespace FlightRadar.Service.Builder
             builderMethods.Add(ADSBMessagetype.Velocity, BuildVelocityMessage);
             builderMethods.Add(ADSBMessagetype.Identification, BuildIdentificationMessage);
 
+            payloadParserPosition = position;
+            payloadParserVelocity = veloctiy;
+            payloadParserIdentification = identification;
+
         }
 
         public ADSBMessageBase BuildMessage(string sentence)
         {
-
-            BuildIdentificationMessage(sentence);
             string message = parser.Parse(sentence);
-            string payload = parser.ParsePayload(message);
-            StringBuilder sb = new StringBuilder();
-
-            foreach (char c in payload)
-                sb.Append(Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0')); //TODO: Besser  machen!
-            string payloadInBin = sb.ToString();
-
-            ADSBMessagetype type = parser.ParseMessagetype(payloadInBin);
+            string payload = parser.ParsePayload(message).ToBin();
+        
+            ADSBMessagetype type = parser.ParseMessagetype(payload);
 
             if (type == ADSBMessagetype.undefined)
                 return null;
 
-            return builderMethods[type].Invoke(payloadInBin);
-
+            return builderMethods[type].Invoke(message);
         }
 
-        private ADSBMessageBase BuildPositionMessage(string payloadInBin)
+        private ADSBMessageBase BuildPositionMessage(string message)
         {
             ADSBPositionMessage msg = new ADSBPositionMessage();
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
-            BuildBaseMessage(payloadInBin, ref baseMsg);
+
+            BuildBaseMessage(message, ref baseMsg);
+            baseMsg = payloadParserPosition.ParseMessage(baseMsg);
             msg = baseMsg as ADSBPositionMessage;
+            msg.TypeSimple = ADSBMessagetype.Position;
+            
+
+
             return msg;
         }
 
-        private ADSBMessageBase BuildVelocityMessage(string payloadInBin)
+        private ADSBMessageBase BuildVelocityMessage(string message)
         {
             ADSBVelocityMessage msg = new ADSBVelocityMessage();
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
-            BuildBaseMessage(payloadInBin, ref baseMsg);
+
+            BuildBaseMessage(message, ref baseMsg);
+            baseMsg = payloadParserVelocity.ParseMessage(baseMsg);
             msg = baseMsg as ADSBVelocityMessage;
+            msg.TypeSimple = ADSBMessagetype.Velocity;
+
             return msg;
         }
 
-        public ADSBMessageBase BuildIdentificationMessage(string payloadInBin)
+        public ADSBMessageBase BuildIdentificationMessage(string message)
         {
             ADSBIdentificationMessage msg = new ADSBIdentificationMessage();
             ADSBMessageBase baseMsg = msg as ADSBMessageBase;
-            BuildBaseMessage(payloadInBin, ref baseMsg);
+
+            BuildBaseMessage(message, ref baseMsg);
+            baseMsg = payloadParserIdentification.ParseMessage(baseMsg);
             msg = baseMsg as ADSBIdentificationMessage;
+            msg.TypeSimple = ADSBMessagetype.Identification;
+
             return msg;
         }
 
-        private void BuildBaseMessage(string payloadInBin, ref ADSBMessageBase baseMsg)
+        private void BuildBaseMessage(string message, ref ADSBMessageBase baseMsg)
         {
-            baseMsg.ICAO = "HELLO"; // NOTE: Nur zum Test :-)
+            baseMsg.ICAO = parser.ParseIcao(message);
+            baseMsg.Timestamp = parser.ParseTimestamp(message);
+            baseMsg.Payload = parser.ParsePayload(message).ToBin();
         } 
     }
 }

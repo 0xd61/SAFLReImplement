@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Model
 {
-    class PlanePosition
+    public class PlanePosition
     {
         public DateTime PositionTimestamp { get; }
         public double Latitude { get; }
