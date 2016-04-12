@@ -36,7 +36,16 @@ namespace FlightRadar.Service.MessageParser
 
         private int ParseAltitude (string payloadInBin)
         {
-            return Convert.ToInt32(payloadInBin.Substring(8, 12), 2);
+            int substringval = Convert.ToInt32(payloadInBin.Substring(8, 12), 2);
+
+            if (Convert.ToInt32(payloadInBin.Substring(15, 1), 2) == 0)
+            {
+                substringval *= 100;
+            } else
+            {
+                substringval *= 25;
+            }
+            return substringval;
         }
 
         private int ParseTimeFlag(string payloadInBin)
