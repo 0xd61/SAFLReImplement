@@ -26,6 +26,11 @@ namespace FlightRadar.Service.MessageParser
             return myString;
         }
 
+        /// <summary>
+        /// Parse message timestamp from adsb sentence
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public DateTime ParseTimestamp(string sentence)
         {
             //TODO: Richtig parsen -> TimeSpan läuft über.
@@ -35,26 +40,51 @@ namespace FlightRadar.Service.MessageParser
             return time;
         }
 
+        /// <summary>
+        /// Parse DFCA from ADSB sentence
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public string ParseDfca(string sentence)
         {
             return sentence.Substring(25, 2);
         }
 
+        /// <summary>
+        /// Parse ICAO from ADSB sentence
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public string ParseIcao(string sentence)
         {
             return sentence.Substring(27, 6);
         }
 
+        /// <summary>
+        /// Parse Payload (hex) from ADSB sentence
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public string ParsePayload(string sentence)
         {
             return sentence.Substring(33, 14);
         }
 
+        /// <summary>
+        /// Parse Parity from ADSB sentence
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public string ParsePartiy(string sentence)
         {
             return sentence.Substring(47);
         }
 
+        /// <summary>
+        /// Parse Messagetype from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         public ADSBMessagetype ParseMessagetype(string payloadInBin)
         {
             int typeCode = Convert.ToInt32(payloadInBin.Substring(0, 4), 2);

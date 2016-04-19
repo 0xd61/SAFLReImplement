@@ -15,6 +15,11 @@ namespace FlightRadar.Service.MessageParser
 
         public char[] SixBitChar = { '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?' };
 
+        /// <summary>
+        /// Assembles the message with parsed data
+        /// </summary>
+        /// <param name="Message"></param>
+        /// <returns></returns>
         public ADSBMessageBase ParseMessage(ADSBMessageBase Message)
         {
             ADSBIdentificationMessage TmpMessage = (ADSBIdentificationMessage)Message;
@@ -25,11 +30,21 @@ namespace FlightRadar.Service.MessageParser
             return TmpMessage;
         }
 
+        /// <summary>
+        /// Parses Emmiter Category (bit 5-7) from binay payload
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         private int ParseEmmiterCategory(String payload)
         {
             return Convert.ToInt32(payload.Substring(5, 3), 2);
         }
 
+        /// <summary>
+        /// Parses the aircraft ID from binary payload (uses 6bit ascii)
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         private String ParseAircraftID(String payload)
         {
             StringBuilder sb = new StringBuilder();

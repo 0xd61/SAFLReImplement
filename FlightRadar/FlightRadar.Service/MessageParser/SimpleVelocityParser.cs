@@ -12,6 +12,11 @@ namespace FlightRadar.Service.MessageParser
     /// </summary>
     public class SimpleVelocityParser : IPayloadParser
     {
+        /// <summary>
+        /// Assembles the message with parsed data
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public ADSBMessageBase ParseMessage(ADSBMessageBase message)
         {
             ADSBVelocityMessage tmpMessage = (ADSBVelocityMessage)message;
@@ -28,26 +33,51 @@ namespace FlightRadar.Service.MessageParser
             return tmpMessage;
         }
 
+        /// <summary>
+        /// Parses the Subtype (bit 5-7) from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         private int ParseSubtype(string payloadInBin)
         {
             return Convert.ToInt32(payloadInBin.Substring(5, 3), 2);
         }
 
+        /// <summary>
+        /// Parses the IntentChange Flag (bit 8) from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         private int ParseIntentChange(string payloadInBin)
         {
             return Convert.ToInt32(payloadInBin.Substring(8, 1), 2);
         }
 
+        /// <summary>
+        /// Parses the ReservedA Flag (bit 9) from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         private int ParseReservedA(string payloadInBin)
         {
             return Convert.ToInt32(payloadInBin.Substring(9, 1), 2);
         }
 
+        /// <summary>
+        /// Parses the Navigation Accuracy (bit 10-12) from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         private int ParseNaviagationAccuracy(string payloadInBin)
         {
             return Convert.ToInt32(payloadInBin.Substring(10, 3), 2);
         }
 
+        /// <summary>
+        /// Parses the Speed from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         private int ParseSpeed(string payloadInBin)
         {
             int subtype = ParseSubtype(payloadInBin);
@@ -63,6 +93,11 @@ namespace FlightRadar.Service.MessageParser
             }
         }
 
+        /// <summary>
+        /// Parses the Heading from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         private int ParseHeading(string payloadInBin)
         {
             int subtype = ParseSubtype(payloadInBin);
@@ -100,11 +135,21 @@ namespace FlightRadar.Service.MessageParser
             }
         }
 
+        /// <summary>
+        /// Parses the Vertical Rate Source (bit 35) from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         private int ParseVerticalRateSource(string payloadInBin)
         {
             return Convert.ToInt32(payloadInBin.Substring(35, 1), 2);
         }
 
+        /// <summary>
+        /// Parses the Vertical Speed from binary payload
+        /// </summary>
+        /// <param name="payloadInBin"></param>
+        /// <returns></returns>
         private int ParseVerticalSpeed(string payloadInBin)
         {
             int verticalSign = Convert.ToInt32(payloadInBin.Substring(36, 1), 2);
