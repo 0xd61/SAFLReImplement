@@ -8,6 +8,9 @@ using FlightRadar.Model;
 
 namespace FlightRadar.Service.MessageParser
 {
+    /// <summary>
+    /// parse ADSB Sentence (used for base message)
+    /// </summary>
     class SimpleMessageParser : IMessageParser
     {
         /// <summary>

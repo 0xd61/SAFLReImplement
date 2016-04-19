@@ -7,6 +7,9 @@ using FlightRadar.Model;
 
 namespace FlightRadar.Service.MessageParser
 {
+    /// <summary>
+    /// Parses the velocity information from the payload
+    /// </summary>
     public class SimpleVelocityParser : IPayloadParser
     {
         public ADSBMessageBase ParseMessage(ADSBMessageBase message)
