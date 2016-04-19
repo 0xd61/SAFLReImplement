@@ -68,7 +68,7 @@ namespace FlightRadar.Service.ViewModel
                 string msg = messageService.PopRawMessage();
 
                 if (msg != string.Empty)
-                {
+        {
                     ADSBMessageBase parsedMessage = messageBuilder.BuildMessage(msg);
                     if (parsedMessage == null)
                         return;
@@ -76,9 +76,9 @@ namespace FlightRadar.Service.ViewModel
                     if (!Planes.ContainsKey(parsedMessage.ICAO))
                         Planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
 
-                    Planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
-                }
-            }
+            Planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
+        }
+        }
 
         }
 

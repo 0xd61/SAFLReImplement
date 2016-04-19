@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace FlightRadar.Service
 {
     /// <summary>
-    /// create the services
+    /// Class used to create the services
     /// </summary>
     public static class ServiceFactory
     {
