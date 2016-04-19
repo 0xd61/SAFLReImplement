@@ -12,6 +12,9 @@ using FlightRadar.Service.Builder;
 
 namespace FlightRadar.Service.ViewModel
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class MessageViewModel : IDisposable
     {
         private IMessageService messageService = null;
