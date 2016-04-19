@@ -82,24 +82,23 @@ namespace FlightRadar.Service
             double dlon = 360.0 / Math.Max(nl - i, 1);
             double longitude = dlon * (mod(m, nl - i) + lon / Nb17);
             //System.err.println ( String.format("%-8s LAT LON %-3.8f %-3.8f global pos", newMsg.getIcao(), latitude, longitude) );
-            return new PlanePosition(NewADSBMessage.Timestamp, (double)latitude, (double)longitude, (double)NewADSBMessage.Altitude);
-
-
+            return new PlanePosition(NewADSBMessage.Timestamp, (double)latitude, (double)longitude, (double)NewADSBMessage.Altitude)
         }
-
-
-
 
         private static double mod(double x, double y)
         {
             return (double)x - y * Math.Floor(x / y);
         }
     }
+
+    /// <summary>
+    /// Lookuptable for longitude zones
+    /// </summary>
     class NumberOfLongitudeZones
     {
         public static int lookup(double cprLatitude)
         {
-            // this lookup procedure associates a number of 
+            /// this lookup procedure associates a number of 
             // longitude (NL) zones with a given latitude
             // taken from 1090-WP-9-14: "Transition Table for NL(lat) Function"
             // this implementation does not work close to the poles (some entries missing).
