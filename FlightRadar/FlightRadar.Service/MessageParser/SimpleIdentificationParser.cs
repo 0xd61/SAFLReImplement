@@ -32,7 +32,6 @@ namespace FlightRadar.Service.MessageParser
 
         private String ParseAircraftID(String payload)
         {
-
             StringBuilder sb = new StringBuilder();
             sb.Append(SixBitChar[Convert.ToInt32(payload.Substring(8, 6), 2)]);
             sb.Append(SixBitChar[Convert.ToInt32(payload.Substring(14, 6), 2)]);
