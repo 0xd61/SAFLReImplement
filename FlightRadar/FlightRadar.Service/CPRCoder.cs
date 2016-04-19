@@ -82,7 +82,7 @@ namespace FlightRadar.Service
             double dlon = 360.0 / Math.Max(nl - i, 1);
             double longitude = dlon * (mod(m, nl - i) + lon / Nb17);
             //System.err.println ( String.format("%-8s LAT LON %-3.8f %-3.8f global pos", newMsg.getIcao(), latitude, longitude) );
-            return new PlanePosition(NewADSBMessage.Timestamp, (double)latitude, (double)longitude, (double)NewADSBMessage.Altitude)
+            return new PlanePosition(NewADSBMessage.Timestamp, (double)latitude, (double)longitude, (double)NewADSBMessage.Altitude);
         }
 
         private static double mod(double x, double y)
