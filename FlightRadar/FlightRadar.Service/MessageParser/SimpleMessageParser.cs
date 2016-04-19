@@ -8,6 +8,9 @@ using FlightRadar.Model;
 
 namespace FlightRadar.Service.MessageParser
 {
+    /// <summary>
+    /// parse ADSB Sentence (used for base message)
+    /// </summary>
     class SimpleMessageParser : IMessageParser
     {
         /// <summary>
@@ -54,16 +57,24 @@ namespace FlightRadar.Service.MessageParser
 
         public ADSBMessagetype ParseMessagetype(string payloadInBin)
         {
-            int typeCode = Convert.ToInt32(payloadInBin.Substring(0, 4),2);
+            int typeCode = Convert.ToInt32(payloadInBin.Substring(0, 4), 2);
 
             //TODO: Surface Message benötigt?
             if (typeCode == 0 || (typeCode >= 9 && typeCode <= 18) || (typeCode >= 20 && typeCode <= 22))
+            {
+                Console.WriteLine("Position.");
                 return ADSBMessagetype.Position;
+            }
             if (typeCode >= 1 && typeCode <= 4)
+            {
+                Console.WriteLine("Identification.");
                 return ADSBMessagetype.Identification;
+            }
             if (typeCode == 19)
+            {
+                Console.WriteLine("Velocity");
                 return ADSBMessagetype.Velocity;
-
+            }
             return ADSBMessagetype.undefined;
         }
 
