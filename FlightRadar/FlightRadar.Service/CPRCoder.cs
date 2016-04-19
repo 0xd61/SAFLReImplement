@@ -9,7 +9,7 @@ using FlightRadar.Model;
 namespace FlightRadar.Service
 {
     /// <summary>
-    /// CPR Berechnung aus 2 Messages 
+    /// CPR calculation from 2 position messages 
     /// </summary>
     class CPRCoder
     {
