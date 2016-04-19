@@ -8,6 +8,9 @@ using FlightRadar.Service.MessageParser;
 
 namespace FlightRadar.Service.Builder
 {
+    /// <summary>
+    /// builds messages from ADSB sentence (uses message type to determine which message to build)
+    /// </summary>
     public class MessageBuilder : IMessageBuilder
     {
         private delegate ADSBMessageBase BuilderDelegate(string payloadInBin);
@@ -19,7 +22,13 @@ namespace FlightRadar.Service.Builder
         private IPayloadParser payloadParserVelocity = null;
         private IPayloadParser payloadParserIdentification = null;
 
-
+        /// <summary>
+        /// constructor used for dependency injection 
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <param name="position"></param>
+        /// <param name="veloctiy"></param>
+        /// <param name="identification"></param>
         public MessageBuilder(IMessageParser parser, IPayloadParser position, IPayloadParser veloctiy, IPayloadParser identification)
         {
             this.parser = parser;
@@ -34,6 +43,11 @@ namespace FlightRadar.Service.Builder
 
         }
 
+        /// <summary>
+        /// delegates to the correct message type
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public ADSBMessageBase BuildMessage(string sentence)
         {
             string message = parser.Parse(sentence);
@@ -47,6 +61,11 @@ namespace FlightRadar.Service.Builder
             return builderMethods[type].Invoke(message);
         }
 
+        /// <summary>
+        /// builds position message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         private ADSBMessageBase BuildPositionMessage(string message)
         {
             ADSBPositionMessage msg = new ADSBPositionMessage();
@@ -56,12 +75,15 @@ namespace FlightRadar.Service.Builder
             baseMsg = payloadParserPosition.ParseMessage(baseMsg);
             msg = baseMsg as ADSBPositionMessage;
             msg.TypeSimple = ADSBMessagetype.Position;
-            
-
 
             return msg;
         }
 
+        /// <summary>
+        /// builds velocity message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         private ADSBMessageBase BuildVelocityMessage(string message)
         {
             ADSBVelocityMessage msg = new ADSBVelocityMessage();
@@ -75,6 +97,11 @@ namespace FlightRadar.Service.Builder
             return msg;
         }
 
+        /// <summary>
+        /// builds identification message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public ADSBMessageBase BuildIdentificationMessage(string message)
         {
             ADSBIdentificationMessage msg = new ADSBIdentificationMessage();
@@ -88,6 +115,11 @@ namespace FlightRadar.Service.Builder
             return msg;
         }
 
+        /// <summary>
+        /// puts base information into the message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="baseMsg"></param>
         private void BuildBaseMessage(string message, ref ADSBMessageBase baseMsg)
         {
             baseMsg.ICAO = parser.ParseIcao(message);
