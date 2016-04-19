@@ -13,65 +13,88 @@ namespace FlightRadar.DataAccess
     public class WebMessageRepository : IMessageRepository
     {
         public string ServerURL { get; private set; } = string.Empty;
-        WebRequest request = null;
-        WebResponse response = null;
-        Stream dataStream = null;
-        StreamReader reader = null;
+        private WebRequest request = null;
+        private WebResponse response = null;
+        private Stream dataStream = null;
+        private StreamReader reader = null;
 
         public WebMessageRepository(string url)
         {
             ServerURL = url;
         }
-        //ABC
 
         public override void StartMessageLoop()
         {
             try
             {
-                request = WebRequest.Create(ServerURL);
-                ((HttpWebRequest)request).UserAgent = ".NET Framework Example Client";
-                response = request.GetResponse();
-
-                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                Connect();
+                Connected = true;
 
                 dataStream = response.GetResponseStream();
-                reader = null;
+                reader = new StreamReader(dataStream);
+
+                Console.WriteLine("Verbunden...");
+
+                MessageLoop();
+
             }
             catch (Exception)
             {
                 Console.WriteLine("Es konnte keine Verbindung hergestellt werden...");
                 return;
             }
-
-            char[] buffer = new char[100];
-            int bytesRead = 0;
-
-            Console.WriteLine("Verbunden...");
-            Connected = true;
-
-            try
+            finally
             {
-                while (StopMessageloop == false)
-                {
-                    reader = new StreamReader(dataStream);
-                    bytesRead = reader.Read(buffer, 0, 100);
-                    string message = new string(buffer);
-                    if (message.Contains("ADS-B"))
-                        base.NotifyListener(message);
-                }
+                CloseConnection();
 
             }
-            catch (Exception)
-            {
+        }
 
-            }
+        private void Connect()
+        {
+            request = WebRequest.Create(ServerURL);
 
+
+            ((HttpWebRequest)request).UserAgent = ".NET Framework Example Client";
+            response = request.GetResponse();
+        }
+
+        private void CloseConnection()
+        {
             reader?.Close();
             response.Close();
 
             Console.WriteLine("Verbindung geschlossen...");
         }
 
+        private void MessageLoop()
+        {
+            char[] buffer = new char[100];
+
+            while (StopMessageloop == false)
+            {
+                string message = ReadMessageStream(buffer);
+
+                RaiseEventMessageReceived(message);
+            }
+        }
+
+        private string ReadMessageStream(char[] buffer)
+        {
+            reader.Read(buffer, 0, 100);
+            return new string(buffer);
+        }
+
+        private bool IsValidMessage(string message)
+        {
+            return message.Contains("ADS-B") && message != string.Empty;
+        }
+
+        private void RaiseEventMessageReceived(string message)
+        {
+            if (IsValidMessage(message))
+                base.NotifyListener(message);
+        }
 
     }
 }

@@ -17,7 +17,6 @@ namespace FlightRadar.DataAccess
 
         protected void NotifyListener(string message)
         {
-            if(message != string.Empty)
             OnGetMessage?.Invoke(message);
         }
 
