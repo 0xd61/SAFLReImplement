@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Service
 {
+    /// <summary>
+    /// class used for all class extensions
+    /// </summary>
     public static class ClassExtension
     {
         /// <summary>
-        /// Konvertiert einen string to bin.
+        /// convert hex string to bin.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>

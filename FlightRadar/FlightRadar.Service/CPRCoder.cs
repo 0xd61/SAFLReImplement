@@ -18,6 +18,12 @@ namespace FlightRadar.Service
         public const double Dlat1 = 360 / 59.0; //ODD Message (Latitude zone size NORTH/SOUTH)
         public const double Nb17 = 131072.0; //Number of bits for Encoding
 
+        /// <summary>
+        /// Calculate position (lat, long, alt) from ADSB Message and reference position (only one message needed)
+        /// </summary>
+        /// <param name="ReferencePosition"></param>
+        /// <param name="NewMessage"></param>
+        /// <returns></returns>
         public static PlanePosition DecodeADSBToPosition(PlanePosition ReferencePosition, ADSBPositionMessage NewMessage)
         {
             double LatitudeReference = ReferencePosition.Latitude;
@@ -37,6 +43,12 @@ namespace FlightRadar.Service
             return new PlanePosition(NewMessage.Timestamp, (double)RLat, (double)RLon, (double)NewMessage.Altitude);
         }
 
+        /// <summary>
+        /// Calculates the position from 2 messages
+        /// </summary>
+        /// <param name="OldADSBMessage"></param>
+        /// <param name="NewADSBMessage"></param>
+        /// <returns></returns>
         public static PlanePosition DecodeGlobalADSB(ADSBPositionMessage OldADSBMessage, ADSBPositionMessage NewADSBMessage)
         {
             if (!OldADSBMessage.ICAO.Equals(NewADSBMessage.ICAO))
@@ -85,6 +97,12 @@ namespace FlightRadar.Service
             return new PlanePosition(NewADSBMessage.Timestamp, (double)latitude, (double)longitude, (double)NewADSBMessage.Altitude);
         }
 
+        /// <summary>
+        /// Calculates mod
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         private static double mod(double x, double y)
         {
             return (double)x - y * Math.Floor(x / y);
@@ -96,12 +114,16 @@ namespace FlightRadar.Service
     /// </summary>
     class NumberOfLongitudeZones
     {
+        /// <summary>
+        /// This lookup procedure associates a number of 
+        /// longitude (NL) zones with a given latitude
+        /// taken from 1090-WP-9-14: "Transition Table for NL(lat) Function"
+        /// this implementation does not work close to the poles (some entries missing).
+        /// </summary>
+        /// <param name="cprLatitude"></param>
+        /// <returns></returns>
         public static int lookup(double cprLatitude)
         {
-            /// this lookup procedure associates a number of 
-            // longitude (NL) zones with a given latitude
-            // taken from 1090-WP-9-14: "Transition Table for NL(lat) Function"
-            // this implementation does not work close to the poles (some entries missing).
             double lat = Math.Abs(cprLatitude);
             if (lat < 10.47047130)
                 return 59;
