@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightRadar.UI", "FlightRad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightRadar.Model", "FlightRadar.Model\FlightRadar.Model.csproj", "{B92780EE-F31B-4DCB-ABFE-B7E08BC7E6D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightRadar.Test", "FlightRadar.Test\FlightRadar.Test.csproj", "{D75F054E-ADF4-4DF5-8D8D-FA12A3FF0EB6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightRadar.DataAccess", "FlightRadar.DataAccess\FlightRadar.DataAccess.csproj", "{7334A936-0D2E-477C-A47A-C94BD25EFD52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightRadar.Service", "FlightRadar.Service\FlightRadar.Service.csproj", "{804C1D2D-D439-4FD0-8A7A-CA406F2C7BEF}"
@@ -27,10 +25,6 @@ Global
 		{B92780EE-F31B-4DCB-ABFE-B7E08BC7E6D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B92780EE-F31B-4DCB-ABFE-B7E08BC7E6D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B92780EE-F31B-4DCB-ABFE-B7E08BC7E6D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D75F054E-ADF4-4DF5-8D8D-FA12A3FF0EB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D75F054E-ADF4-4DF5-8D8D-FA12A3FF0EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D75F054E-ADF4-4DF5-8D8D-FA12A3FF0EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D75F054E-ADF4-4DF5-8D8D-FA12A3FF0EB6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7334A936-0D2E-477C-A47A-C94BD25EFD52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7334A936-0D2E-477C-A47A-C94BD25EFD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7334A936-0D2E-477C-A47A-C94BD25EFD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
