@@ -7,6 +7,9 @@ using FlightRadar.Model;
 
 namespace FlightRadar.Service.MessageParser
 {
+    /// <summary>
+    /// Parses the position information from the payload
+    /// </summary>
     public class SimplePositionParser : IPayloadParser
     {
         public ADSBMessageBase ParseMessage(ADSBMessageBase message)
