@@ -65,12 +65,12 @@ namespace FlightRadar.Service.MessageParser
                 Console.WriteLine("Position.");
                 return ADSBMessagetype.Position;
             }
-            if (typeCode >= 1 && typeCode <= 4)
+            else if (typeCode >= 1 && typeCode <= 4)
             {
                 Console.WriteLine("Identification.");
                 return ADSBMessagetype.Identification;
             }
-            if (typeCode == 19)
+            else if (typeCode == 19)
             {
                 Console.WriteLine("Velocity");
                 return ADSBMessagetype.Velocity;
