@@ -16,16 +16,9 @@ namespace FlightRadar.Service.ViewModel
     {
         private IMessageService messageService = null;
         private IMessageBuilder messageBuilder = null;
-        private IMessageParser messageParser = null;
-
-        private IPayloadParser positionParser = null;
-        private IPayloadParser velocityParser = null;
-        private IPayloadParser identificationParser = null;
-
         private IMessageRepository messageRepository = null;
 
-        public PlaneContainer Planes { get; } = null;
-
+        public PlaneContainer Planes { get; private set; } = null;
         public bool IsConntected
         {
             get
@@ -36,17 +29,10 @@ namespace FlightRadar.Service.ViewModel
 
         public MessageViewModel()
         {
-            messageRepository = ServiceFactory.CreateWebRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence");
-            messageService = ServiceFactory.CreateMessageService(messageRepository);
-
-            messageParser = ServiceFactory.CreateMessageParserService();
-            positionParser = ServiceFactory.CreatePayloadParserPosition();
-            velocityParser = ServiceFactory.CreatePayloadParserVelocity();
-            identificationParser = ServiceFactory.CreatePayloadParserIdentification();
-
-            messageBuilder = ServiceFactory.CreateMessageBuilderService(messageParser, positionParser, velocityParser, identificationParser);
-
-            Planes = new PlaneContainer();
+            CreateMessageBuilder();
+            CreateMessageRepository();
+            CreateMessageService();
+            CreateContainers();
         }
 
         public void Update()
@@ -55,24 +41,60 @@ namespace FlightRadar.Service.ViewModel
             {
                 string msg = messageService.PopRawMessage();
 
-                if (msg != string.Empty)
-                {
-                    ADSBMessageBase parsedMessage = messageBuilder.BuildMessage(msg);
-                    if (parsedMessage == null)
-                        return;
+                ADSBMessageBase parsedMessage = GetMessage(msg);
 
-                    if (!Planes.ContainsKey(parsedMessage.ICAO))
-                        Planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
-
-                    //Console.WriteLine(parsedMessage.ToString());
-
-
-                    Planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
-                } 
+                AddPlane(parsedMessage);
+                AddMessageToPlane(parsedMessage);
             }
-
         }
-        
+
+        private void CreateMessageBuilder()
+        {
+            messageBuilder = ServiceFactory.CreateMessageBuilderService(
+             ServiceFactory.CreateMessageParserService(),
+             ServiceFactory.CreatePayloadParserPosition(),
+             ServiceFactory.CreatePayloadParserVelocity(),
+             ServiceFactory.CreatePayloadParserIdentification());
+        }
+
+        private void CreateMessageRepository()
+        {
+            messageRepository = ServiceFactory.CreateWebRepository("http://flugmon-it.hs-esslingen.de/subscribe/ads.sentence");
+        }
+
+        private void CreateMessageService()
+        {
+            messageService = ServiceFactory.CreateMessageService(messageRepository);
+        }
+
+        private void CreateContainers()
+        {
+            Planes = new PlaneContainer();
+        }
+
+        private void AddMessageToPlane(ADSBMessageBase parsedMessage)
+        {
+            if (!IsMessageValid(parsedMessage))
+                return;
+            Planes[parsedMessage.ICAO].addMessageToPlane(parsedMessage);
+        }
+
+        private void AddPlane(ADSBMessageBase parsedMessage)
+        {
+            if (IsMessageValid(parsedMessage) && !Planes.ContainsKey(parsedMessage.ICAO))
+                Planes.Add(parsedMessage.ICAO, new Plane(parsedMessage.ICAO));
+        }
+
+        private bool IsMessageValid(ADSBMessageBase parsedMessage)
+        {
+            return parsedMessage != null;
+        }
+
+        private ADSBMessageBase GetMessage(string message)
+        {
+            return messageBuilder.BuildMessage(message);
+        }
+
         public ADSBPositionMessage GetPositionMessage(string icao)
         {
             ADSBPositionMessage message = (ADSBPositionMessage)Planes[icao].getADSBMessageContainer().FirstOrDefault(e => e.TypeSimple == ADSBMessagetype.Position);
@@ -92,7 +114,7 @@ namespace FlightRadar.Service.ViewModel
             ADSBIdentificationMessage message = (ADSBIdentificationMessage)Planes[icao].getADSBMessageContainer().FirstOrDefault(e => e.TypeSimple == ADSBMessagetype.Identification);
 
             return message;
-        }                               
+        }
 
         public void Dispose()
         {
