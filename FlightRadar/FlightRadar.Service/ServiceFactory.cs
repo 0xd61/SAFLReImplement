@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace FlightRadar.Service
 {
+    /// <summary>
+    /// create the services
+    /// </summary>
     public static class ServiceFactory
     {
         public static IMessageRepository CreateWebRepository(string url)
