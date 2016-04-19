@@ -22,7 +22,7 @@ namespace FlightRadar.DataAccess
         {
             ServerURL = url;
         }
-
+        //ABC
 
         public override void StartMessageLoop()
         {
