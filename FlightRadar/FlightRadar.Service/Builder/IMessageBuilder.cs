@@ -10,6 +10,5 @@ namespace FlightRadar.Service.Builder
     public interface IMessageBuilder
     {
         ADSBMessageBase BuildMessage(string sentence);
-
     }
 }
