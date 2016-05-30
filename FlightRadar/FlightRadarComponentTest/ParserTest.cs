@@ -20,7 +20,7 @@ namespace FlightRadarComponentTest
 
             message = parser.ParseMessage(message) as ADSBIdentificationMessage;
 
-            Console.WriteLine(message.AircraftID+"#"+message.EmitterCategory);
+            /*Console.WriteLine(message.AircraftID+"#"+message.EmitterCategory);*/
             Assert.AreEqual(message.AircraftID.ToString(), "KLM1023 ");
             Assert.AreEqual(message.EmitterCategory, 0);
         }
@@ -35,13 +35,13 @@ namespace FlightRadarComponentTest
             message.Payload = payloadParser.ParsePayload(adsbSentence).ToBin();
             message = parser.ParseMessage(message) as ADSBPositionMessage;
 
-            Console.Write(  message.NicSupplement + "\n" +
+            /*Console.Write(  message.NicSupplement + "\n" +
                             message.Altitude + "\n" +
                             message.TimeFlag + "\n" +
                             message.CprLatitude + "\n" +
                             message.CprLongitude + "\n" +
                             message.CprFormate + "\n" +
-                            message.SurveillanceStatus);
+                            message.SurveillanceStatus);*/
 
             Assert.AreEqual(message.NicSupplement.ToString(), "0");
             Assert.AreEqual(message.Altitude.ToString(), "3128");
@@ -63,14 +63,14 @@ namespace FlightRadarComponentTest
 
             message = parser.ParseMessage(message) as ADSBVelocityMessage;
 
-            Console.Write(  message.Subtype +"\n"+
+            /*Console.Write(  message.Subtype +"\n"+
                             message.IntentChange + "\n" +
                             message.ReservedA + "\n" +
                             message.NavigationAccuracy + "\n" +
                             message.Speed + "\n" +
                             message.Heading + "\n" +
                             message.VerticalRateSource + "\n" +
-                            message.VerticalSpeed);
+                            message.VerticalSpeed);*/
 
             Assert.AreEqual(message.Subtype.ToString(), "1");
             Assert.AreEqual(message.IntentChange.ToString(), "0");
