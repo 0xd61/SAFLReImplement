@@ -50,8 +50,22 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="ParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlightRadar.DataAccess\FlightRadar.DataAccess.csproj">
+      <Project>{7334a936-0d2e-477c-a47a-c94bd25efd52}</Project>
+      <Name>FlightRadar.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlightRadar.Model\FlightRadar.Model.csproj">
+      <Project>{b92780ee-f31b-4dcb-abfe-b7e08bc7e6d6}</Project>
+      <Name>FlightRadar.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlightRadar.Service\FlightRadar.Service.csproj">
+      <Project>{804c1d2d-d439-4fd0-8a7a-ca406f2c7bef}</Project>
+      <Name>FlightRadar.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
