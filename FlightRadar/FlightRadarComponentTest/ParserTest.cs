@@ -20,8 +20,9 @@ namespace FlightRadarComponentTest
 
             message = parser.ParseMessage(message) as ADSBIdentificationMessage;
 
-            Assert.Equals(message.AircraftID, "KLM1023");
-            //Assert.Equals(message.EmitterCategory, 1337);
+            Console.WriteLine(message.AircraftID+"#"+message.EmitterCategory);
+            Assert.AreEqual(message.AircraftID.ToString(), "KLM1023 ");
+            Assert.AreEqual(message.EmitterCategory, 0);
         }
 
         [TestMethod]
