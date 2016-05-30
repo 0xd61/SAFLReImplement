@@ -35,13 +35,21 @@ namespace FlightRadarComponentTest
             message.Payload = payloadParser.ParsePayload(adsbSentence).ToBin();
             message = parser.ParseMessage(message) as ADSBPositionMessage;
 
-            //Assert.Equals(message.NicSupplement, "1111");
-            Assert.Equals(message.Altitude, 38000);
-            /*Assert.Equals(message.TimeFlag, "1111");
-            Assert.Equals(message.CprLatitude, "1111");
-            Assert.Equals(message.CprLongitude, "1111");
-            Assert.Equals(message.CprFormate, "1111");
-            Assert.Equals(message.SurveillanceStatus, "1111");*/
+            Console.Write(  message.NicSupplement + "\n" +
+                            message.Altitude + "\n" +
+                            message.TimeFlag + "\n" +
+                            message.CprLatitude + "\n" +
+                            message.CprLongitude + "\n" +
+                            message.CprFormate + "\n" +
+                            message.SurveillanceStatus);
+
+            Assert.AreEqual(message.NicSupplement.ToString(), "0");
+            Assert.AreEqual(message.Altitude.ToString(), "3128");
+            Assert.AreEqual(message.TimeFlag.ToString(), "0");
+            Assert.AreEqual(message.CprLatitude.ToString(), "51372");
+            Assert.AreEqual(message.CprLongitude.ToString(), "93000");
+            Assert.AreEqual(message.CprFormate.ToString(), "0");
+            Assert.AreEqual(message.SurveillanceStatus.ToString(), "0");
         }
 
         [TestMethod]
@@ -55,14 +63,23 @@ namespace FlightRadarComponentTest
 
             message = parser.ParseMessage(message) as ADSBVelocityMessage;
 
-           /* Assert.Equals(message.Subtype, "1111");
-            Assert.Equals(message.IntentChange, "1111");
-            Assert.Equals(message.ReservedA, "1111");
-            Assert.Equals(message.NavigationAccuracy, "1111");
-            Assert.Equals(message.Speed, "1111");
-            Assert.Equals(message.Heading, "1111");
-            Assert.Equals(message.VerticalRateSource, "1111");
-            Assert.Equals(message.VerticalSpeed, "1111");*/
+            Console.Write(  message.Subtype +"\n"+
+                            message.IntentChange + "\n" +
+                            message.ReservedA + "\n" +
+                            message.NavigationAccuracy + "\n" +
+                            message.Speed + "\n" +
+                            message.Heading + "\n" +
+                            message.VerticalRateSource + "\n" +
+                            message.VerticalSpeed);
+
+            Assert.AreEqual(message.Subtype.ToString(), "1");
+            Assert.AreEqual(message.IntentChange.ToString(), "0");
+            Assert.AreEqual(message.ReservedA.ToString(), "1");
+            Assert.AreEqual(message.NavigationAccuracy.ToString(), "0");
+            Assert.AreEqual(message.Speed.ToString(), "160");
+            Assert.AreEqual(message.Heading.ToString(), "184");
+            Assert.AreEqual(message.VerticalRateSource.ToString(), "0");
+            Assert.AreEqual(message.VerticalSpeed.ToString(), "-832");
         }
 
 
