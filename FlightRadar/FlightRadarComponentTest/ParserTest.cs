@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FlightRadar.Service;
 using FlightRadar.Model;
 using FlightRadar.Service.MessageParser;
